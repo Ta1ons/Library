@@ -2,11 +2,16 @@
 
 namespace library
 {
-    class Program
+    class Library
     {
-        static void Main(string[] args)
+        class book
         {
-            Console.WriteLine("Hello World!");
+            public string Title;
+            public string Author;
+            public string Series;
+            public string ID;
+            public string Rating;
+
         }
     }
 }
