@@ -7,8 +7,11 @@ namespace Learning_Projects
     class Program
     {
         private static List<Book> books = new List<Book>();
+        
         static void Main(string[] args)
         {
+            //add test books for testing only
+            CreateTestBooks();
             //check for input
 
             //if search, then run search method
@@ -17,19 +20,50 @@ namespace Learning_Projects
             //if add, then run add method.
 
             //loop for input until quit
-            var adding = true;
 
-            
+            bool showMenu = true;
+            while (showMenu)
+            {
+                showMenu = MainMenu();
+            }
+        }
 
-            Console.WriteLine("Please select from the following options:" +
-                "\nAdd a new book (1)" +
-                "\nSearch for a book (2)" +
-                "\nQuit (3)");
-            var menuSelection = Console.ReadLine();
+        private static bool MainMenu()
+        {
+            Console.Clear();
+            Console.WriteLine("Please select from the following options:");
+            Console.WriteLine("(1) Add a new book");
+            Console.WriteLine("(2) Search for books");
+            Console.WriteLine("(3) List all books");
+            Console.WriteLine("(4) Exit");
+            Console.Write("\r\nPlease select an option: ");
 
-            if (menuSelection == "1")
+            switch (Console.ReadLine())
+           
+            {
+                case "1":
+                    AddNewBook();
+                    return true;
+                case "2":
+                    SearchBooks();
+                    return true;
+                case "3":
+                    ListAllBooks();
+                    return true;
+                case "4":
+                    return false;
+                default:
+                    return true;
+            }
+        }
 
-            while (adding)
+        private static void AddNewBook()
+        {
+            var endAdding = true;
+
+            Console.Clear();
+
+            while (endAdding)
             {
                 var newBook = new Book();
 
@@ -40,6 +74,7 @@ namespace Learning_Projects
                     Console.WriteLine("The book must have an title, please enter the title: ");
                     newBook.title = Console.ReadLine();
                 }
+                
                 Console.WriteLine("Who is the author of the book: ");
                 newBook.author = Console.ReadLine();
                 while (newBook.author == "")
@@ -50,42 +85,90 @@ namespace Learning_Projects
 
                 Console.WriteLine("What rating would you give the book(1-10)? ");
                 int.TryParse(Console.ReadLine(), out newBook.rating);
-                //newBook.rating = int.Parse(Console.ReadLine());
                 while (newBook.rating < 1 || newBook.rating > 10)
                 {
                     Console.WriteLine("The book must have an rating, please enter rating: ");
                     int.TryParse(Console.ReadLine(), out newBook.rating);
-                    //newBook.rating = int.Parse(Console.ReadLine());
                 }
 
                 books.Add(newBook);
-                Book.Count++;
+
+                newBook.ID = books.Count+1;
 
                 Console.WriteLine("Would you like to add another book(y/n)?");
                 if (Console.ReadLine() != "y")
-                    adding = false;
+                    endAdding = false;
             }
+        }
+        private static void SearchBooks()
+        {
+            //TODO later: Look at making the searching case insensitive (tip: look up string.tolower())
 
-            if (menuSelection == "2")
-            Console.WriteLine("Enter a keyword: ");
-            var bookSearch = Console.ReadLine();
-            foreach (var book in books)
-            {      
-                if (book.title.Contains(bookSearch)||book.author.Contains(bookSearch))
+            var endSearching = true;
+
+            //Create a list to store the books that match the search
+            var bookResults = new List<Book>();
+
+            while (endSearching)
+            {
+                bookResults.Clear();
+                Console.Clear();
+                Console.WriteLine("Enter a keyword to search: ");
+                var bookSearch = Console.ReadLine();
+                foreach (var book in books)
                 {
-                    var result = book;
-                    Console.WriteLine(result);
+                    if (book.title.Contains(bookSearch) || book.author.Contains(bookSearch))
+                    {
+                        //add the matching book to the result list
+                        bookResults.Add(book);
+                    }
                 }
+
+                //If the results list has items in it, loop through them and print them out
+                if (bookResults.Count == 0)
+                    Console.WriteLine("No results found.");
+                else
+                {
+                    Console.WriteLine("Results found");
+                    Console.WriteLine("Title      |     Author    |      Rating");
+                    foreach (var book in bookResults)
+                    {
+                        PrintBookDetails(book);
+                    }
+
+                }
+
+                Console.WriteLine("Would you like to search for another book(y/n)?");
+                if (Console.ReadLine() != "y")
+                    endSearching = false;
+            }
+        }
+
+        private static void PrintBookDetails(Book book)
+        {
+            Console.WriteLine($"{book.title}, {book.author}, {book.rating}");
+        }
+
+        private static void CreateTestBooks()
+        {
+            books.Add(new Book { author = "Stephen King", rating = 4, title = "IT" });
+        }
+
+        private static void ListAllBooks()
+        {
+            foreach (var book in books)
+            {
+                PrintBookDetails(book);
             }
 
-            if (menuSelection == "3")
-                Environment.Exit(0);
+            Console.WriteLine("Press any key to return to main menu.");
+            Console.ReadLine();
         }
     }
 
     class Book
     {
-        static public int Count=0;
+        public int ID;
         public string title;
         public string author;
         public int rating;
