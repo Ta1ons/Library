@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 
-namespace Learning_Projects
+namespace Library
 {
     class Program
     {
@@ -12,14 +12,6 @@ namespace Learning_Projects
         {
             //add test books for testing only
             CreateTestBooks();
-            //check for input
-
-            //if search, then run search method
-            //look up string contains method. https://docs.microsoft.com/en-us/dotnet/api/system.string.contains?view=net-5.0
-
-            //if add, then run add method.
-
-            //loop for input until quit
 
             bool showMenu = true;
             while (showMenu)
@@ -40,7 +32,6 @@ namespace Learning_Projects
             Console.Write("\r\nPlease select an option: ");
 
             switch (Console.ReadLine())
-
             {
                 case "1":
                     AddNewBook();
@@ -87,8 +78,16 @@ namespace Learning_Projects
                     newBook.author = Console.ReadLine();
                 }
 
-                Console.WriteLine("Is this book part of a series? If no, press enter. If yes, what is the name of the series: ");
-                newBook.series = Console.ReadLine();
+                Console.WriteLine("Is this book part of a series? (y/n)");
+                if (Console.ReadLine() == "y")
+                {
+                    Console.WriteLine("Enter name of the series: ");
+                    newBook.series = Console.ReadLine();
+                }
+                else
+                {
+                    newBook.series = "";
+                }
 
                 Console.WriteLine("What rating would you give the book(1-10)? ");
                 int.TryParse(Console.ReadLine(), out newBook.rating);
@@ -104,13 +103,14 @@ namespace Learning_Projects
 
                 Console.WriteLine("Would you like to add another book(y/n)?");
                 if (Console.ReadLine() != "y")
+                {
                     endAdding = false;
+                }
             }
         }
         private static void SearchBooks()
         {
             var endSearching = true;
-
             //Create a list to store the books that match the search
             var searchResults = new List<Book>();
 
@@ -125,10 +125,13 @@ namespace Learning_Projects
 
                 //If the results list has items in it, loop through them and print them out
                 if (searchResults.Count == 0)
+                {
                     Console.WriteLine("No results found.");
+                }
                 else
                 {
                     Console.WriteLine("Results found!");
+                    Console.WriteLine("|     ID     |     Title     |     Author     |     Series     |     Rating     |");
                     foreach (var book in searchResults)
                     {
                         PrintBookDetails(book);
@@ -137,7 +140,9 @@ namespace Learning_Projects
                 }
                 Console.WriteLine("Would you like to search for another book(y/n)?");
                 if (Console.ReadLine() != "y")
+                {
                     endSearching = false;
+                }
             }
         }
 
@@ -154,9 +159,8 @@ namespace Learning_Projects
         }
 
         private static void PrintBookDetails(Book book)
-        {
-            Console.WriteLine("|     ID     |     Title     |     Author     |     Series     |     Rating     |");
-            Console.WriteLine($"{book.ID}, {book.title}, {book.author}, {book.series}, {book.rating}");
+        { 
+                Console.WriteLine($"{book.ID}, {book.title}, {book.author}, {book.series}, {book.rating}");
         }
 
         private static void CreateTestBooks()
@@ -173,39 +177,44 @@ namespace Learning_Projects
             {
                 removeList.Clear();
                 Console.Clear();
-                Console.WriteLine("Enter a book to delete: ");
+                Console.WriteLine("This option is to delete a book. Please enter a keyword to search: ");
                 var bookSearch = Console.ReadLine();
 
                 SearchInBookList(removeList, bookSearch);
 
                 if (removeList.Count == 0)
+                {
                     Console.WriteLine("No results found.");
+                }
                 else
                 {
                     Console.WriteLine("Results found!");
+                    Console.WriteLine("|     ID     |     Title     |     Author     |     Series     |     Rating     |");
                     foreach (var book in removeList)
                     {
                         PrintBookDetails(book);
+                        Console.WriteLine("Would you like to delete this book? (y/n) ");
+                        if (Console.ReadLine() == "y")
+                        {
+                            books.Remove(book);
+                            Console.WriteLine("Book Deleted!");
+                        }
                     }
-
-                    Console.WriteLine("If the book you are looking for isn't in the list, please press enter. Otherwise, please select an ID to delete: ");
-                    var deleteBookID = int.Parse(Console.ReadLine());
-                    //if (deleteBookID == book.ID)
-                    //{
-                    books.Remove(new Book() {ID = deleteBookID });
-                    //}
-                    //else
-                    //    endSearch = false;
+                    Console.WriteLine("Would you like to search for another book(y/n)?");
+                    if (Console.ReadLine() != "y")
+                    {
+                        endSearch = false;
+                    }
                 }
             }
         }
         private static void ListAllBooks()
         {
+            Console.WriteLine("|     ID     |     Title     |     Author     |     Series     |     Rating     |");
             foreach (var book in books)
             {
                 PrintBookDetails(book);
             }
-
             Console.WriteLine("Press any key to return to main menu.");
             Console.ReadLine();
         }
