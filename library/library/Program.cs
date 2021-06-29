@@ -7,7 +7,6 @@ namespace Library
 {
     class Program
     {
-        public static List<Book> books = new List<Book>();
         public static BookService bookService = new BookService();
 
         static void Main(string[] args)
@@ -99,9 +98,7 @@ namespace Library
                     int.TryParse(Console.ReadLine(), out newBook.overallRating);
                 }
 
-                AddBook(newBook);
-
-                newBook.ID = books.Count + 1;
+                bookService.AddBook(newBook);
 
                 Console.WriteLine("Would you like to add another book(y/n)?");
                 if (Console.ReadLine() != "y")
@@ -111,26 +108,20 @@ namespace Library
             }
         }
 
-        private static void AddBook(Book newBook)
-        {
-            books.Add(newBook);
-           // bookService.AddBook(newBook);
-        }
-
         public static void SearchBooks()
         {
             var endSearching = true;
-            //Create a list to store the books that match the search
-            var searchResults = new List<Book>();
 
             while (endSearching)
             {
-                searchResults.Clear();
+                //Create a list to store the books that match the search
+                var searchResults = new List<Book>();
                 Console.Clear();
                 Console.WriteLine("Enter a keyword to search: ");
                 var bookSearch = Console.ReadLine();
 
-                SearchInBookList(searchResults, bookSearch);
+                searchResults = bookService.SearchBooks(bookSearch);
+
 
                 //If the results list has items in it, loop through them and print them out
                 if (searchResults.Count == 0)
@@ -157,14 +148,7 @@ namespace Library
 
         public static void SearchInBookList(List<Book> listToAddResultsTo, string searchCriteria)
         {
-            foreach (var book in books)
-            {
-                if (book.title.Contains(searchCriteria, StringComparison.OrdinalIgnoreCase) || book.author.Contains(searchCriteria, StringComparison.OrdinalIgnoreCase) || book.series.Contains(searchCriteria, StringComparison.OrdinalIgnoreCase))
-                {
-                    //add the matching book to the result list
-                    listToAddResultsTo.Add(book);
-                }
-            }
+            bookService.SearchBooks(searchCriteria);
         }
 
         public static void PrintBookDetails(Book book)
@@ -174,7 +158,7 @@ namespace Library
 
         public static void CreateTestBooks()
         {
-            books.Add(new Book { author = "Stephen King", overallRating = 4, title = "IT", ID = 1 });
+            bookService.AddBook(new Book { author = "Stephen King", overallRating = 4, title = "IT", ID = 1, series = "" });
         }
 
         public static void DeleteBook()
@@ -189,7 +173,7 @@ namespace Library
                 Console.WriteLine("This option is to delete a book. Please enter a keyword to search: ");
                 var bookSearch = Console.ReadLine();
 
-                SearchInBookList(removeList, bookSearch);
+                removeList = bookService.SearchBooks(bookSearch);
 
                 if (removeList.Count == 0)
                 {
@@ -205,7 +189,8 @@ namespace Library
                         Console.WriteLine("Would you like to delete this book? (y/n) ");
                         if (Console.ReadLine() == "y")
                         {
-                            books.Remove(book);
+                            bookService.DeleteBook(book);
+
                             Console.WriteLine("Book Deleted!");
                         }
                     }
@@ -220,6 +205,8 @@ namespace Library
         public static void ListAllBooks()
         {
             Console.WriteLine("|     ID     |     Title     |     Author     |     Series     |     Rating     |");
+            var books = bookService.GetAllBooks();
+
             foreach (var book in books)
             {
                 PrintBookDetails(book);
