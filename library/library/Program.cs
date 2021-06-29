@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using Library.Models;
+using Library.Services;
 
 namespace Library
 {
     class Program
     {
-        private static List<Book> books = new List<Book>();
+        public static List<Book> books = new List<Book>();
+        public static BookService bookService = new BookService();
 
         static void Main(string[] args)
         {
@@ -20,7 +22,7 @@ namespace Library
             }
         }
 
-        private static bool MainMenu()
+        public static bool MainMenu()
         {
             Console.Clear();
             Console.WriteLine("Please select from the following options:");
@@ -52,7 +54,7 @@ namespace Library
             }
         }
 
-        private static void AddNewBook()
+        public static void AddNewBook()
         {
             var endAdding = true;
 
@@ -89,15 +91,15 @@ namespace Library
                     newBook.series = "";
                 }
 
-                Console.WriteLine("What rating would you give the book(1-10)? ");
-                int.TryParse(Console.ReadLine(), out newBook.rating);
-                while (newBook.rating < 1 || newBook.rating > 10)
+                Console.WriteLine("What rating would you give the book(1-5)? ");
+                int.TryParse(Console.ReadLine(), out newBook.overallRating);
+                while (newBook.overallRating < 1 || newBook.overallRating > 5)
                 {
                     Console.WriteLine("The book must have an rating, please enter rating: ");
-                    int.TryParse(Console.ReadLine(), out newBook.rating);
+                    int.TryParse(Console.ReadLine(), out newBook.overallRating);
                 }
 
-                books.Add(newBook);
+                AddBook(newBook);
 
                 newBook.ID = books.Count + 1;
 
@@ -108,7 +110,14 @@ namespace Library
                 }
             }
         }
-        private static void SearchBooks()
+
+        private static void AddBook(Book newBook)
+        {
+            books.Add(newBook);
+           // bookService.AddBook(newBook);
+        }
+
+        public static void SearchBooks()
         {
             var endSearching = true;
             //Create a list to store the books that match the search
@@ -146,7 +155,7 @@ namespace Library
             }
         }
 
-        private static void SearchInBookList(List<Book> listToAddResultsTo, string searchCriteria)
+        public static void SearchInBookList(List<Book> listToAddResultsTo, string searchCriteria)
         {
             foreach (var book in books)
             {
@@ -158,17 +167,17 @@ namespace Library
             }
         }
 
-        private static void PrintBookDetails(Book book)
-        { 
-                Console.WriteLine($"{book.ID}, {book.title}, {book.author}, {book.series}, {book.rating}");
-        }
-
-        private static void CreateTestBooks()
+        public static void PrintBookDetails(Book book)
         {
-            books.Add(new Book { author = "Stephen King", rating = 4, title = "IT", ID = 1 });
+            Console.WriteLine($"{book.ID}, {book.title}, {book.author}, {book.series}, {book.overallRating}");
         }
 
-        private static void DeleteBook()
+        public static void CreateTestBooks()
+        {
+            books.Add(new Book { author = "Stephen King", overallRating = 4, title = "IT", ID = 1 });
+        }
+
+        public static void DeleteBook()
         {
             var removeList = new List<Book>();
             var endSearch = true;
@@ -208,7 +217,7 @@ namespace Library
                 }
             }
         }
-        private static void ListAllBooks()
+        public static void ListAllBooks()
         {
             Console.WriteLine("|     ID     |     Title     |     Author     |     Series     |     Rating     |");
             foreach (var book in books)
@@ -220,12 +229,6 @@ namespace Library
         }
     }
 
-    class Book
-    {
-        public int ID;
-        public string title;
-        public string author;
-        public string series;
-        public int rating;
-    }
+
 }
+
