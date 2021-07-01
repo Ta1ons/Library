@@ -7,10 +7,25 @@ namespace Library
 {
     class Program
     {
+
         public static BookService bookService = new BookService();
+        public static LoginService login = new LoginService();
 
         static void Main(string[] args)
         {
+            Console.WriteLine("Enter Username: ");
+            string userName = Console.ReadLine();
+            var authenticated = login.EnterLogin(userName);
+            while (authenticated == false)
+            {
+                Console.WriteLine("Try Again");
+                Console.WriteLine("Enter Username: ");
+                userName = Console.ReadLine();
+                authenticated = login.EnterLogin(userName);
+            }
+
+            var currentUser = login.GetCurrentUser(userName);
+
             //add test books for testing only
             CreateTestBooks();
 
@@ -29,7 +44,8 @@ namespace Library
             Console.WriteLine("(2) Search for books");
             Console.WriteLine("(3) Delete book(s)");
             Console.WriteLine("(4) List all books");
-            Console.WriteLine("(5) Exit");
+            Console.WriteLine("(5) User profile");
+            Console.WriteLine("(6) Exit");
             Console.Write("\r\nPlease select an option: ");
 
             switch (Console.ReadLine())
@@ -47,6 +63,9 @@ namespace Library
                     ListAllBooks();
                     return true;
                 case "5":
+                    UserDetails();
+                    return true;
+                case "6":
                     return false;
                 default:
                     return true;
@@ -156,11 +175,6 @@ namespace Library
             Console.WriteLine($"{book.ID}, {book.title}, {book.author}, {book.series}, {book.overallRating}");
         }
 
-        public static void CreateTestBooks()
-        {
-            bookService.AddBook(new Book { author = "Stephen King", overallRating = 4, title = "IT", ID = 1, series = "" });
-        }
-
         public static void DeleteBook()
         {
             var removeList = new List<Book>();
@@ -214,8 +228,19 @@ namespace Library
             Console.WriteLine("Press any key to return to main menu.");
             Console.ReadLine();
         }
+        public static void CreateTestBooks()
+        {
+            bookService.AddBook(new Book { author = "Stephen King", overallRating = 4, title = "IT", ID = 1, series = "" });
+        }
+
+
+        public static void UserDetails()
+        {
+            Console.WriteLine($"{currentUser}");
+                //bookService.GetReviewsForBook()
+                //bookService.GetBorrowedHistory()
+                //bookService.GetRatingsForBook()
+            }
     }
-
-
 }
 

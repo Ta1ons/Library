@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Library.Models
 {
-    public class Review
+    public static class Globals
     {
-        public string review;
-        public int userRating;
+        //public static string currentUser = login.GetCurrentUser();
     }
 }
