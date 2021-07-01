@@ -24,8 +24,6 @@ namespace Library
                 authenticated = login.EnterLogin(userName);
             }
 
-            var currentUser = login.GetCurrentUser(userName);
-
             //add test books for testing only
             CreateTestBooks();
 
@@ -236,11 +234,13 @@ namespace Library
 
         public static void UserDetails()
         {
-            Console.WriteLine($"{currentUser}");
+            Console.Clear();
+            Console.WriteLine($"{login.CurrentUser.name}");
+            Console.ReadLine();
                 //bookService.GetReviewsForBook()
                 //bookService.GetBorrowedHistory()
                 //bookService.GetRatingsForBook()
-            }
+        }
     }
 }
 

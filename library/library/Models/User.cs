@@ -9,7 +9,7 @@ namespace Library.Models
         public int personalID;
         public string name;
 
-
+        public User() { }
         public User(int apersonalID, string aname)
         {
             personalID = apersonalID;

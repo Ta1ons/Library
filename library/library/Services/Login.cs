@@ -7,7 +7,15 @@ namespace Library.Services
 {
     public class LoginService
     {
-        List<User> users = new List<User>() { new User(1, "Adam"), new User (2, "Larissa") };
+        List<User> users = new List<User>() { new User(1, "Adam"), new User(2, "Larissa") };
+
+        private User currentUser = new User();
+
+        //current user us set from login and unable to be set outside of class.
+        public User CurrentUser
+        {
+            get { return currentUser; }
+        }
 
         public bool EnterLogin(string login)
         {
@@ -16,6 +24,7 @@ namespace Library.Services
                 if (user.name.Contains(login, StringComparison.OrdinalIgnoreCase))
                 {
                     result = true;
+                    currentUser = user;
                 }
 
             return result;
