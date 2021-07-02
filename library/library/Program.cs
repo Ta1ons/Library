@@ -231,7 +231,6 @@ namespace Library
             bookService.AddBook(new Book { author = "Stephen King", overallRating = 4, title = "IT", ID = 1, series = "" });
         }
 
-
         public static void UserDetails()
         {
             Console.Clear();

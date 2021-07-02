@@ -29,17 +29,5 @@ namespace Library.Services
 
             return result;
         }
-
-        public string GetCurrentUser(string myUser)
-        {
-            string CurrentUser = "";
-
-            foreach (var user in users)
-                if (user.name.Contains(myUser, StringComparison.OrdinalIgnoreCase))
-                {
-                    CurrentUser = user.name;
-                }
-            return CurrentUser;
-        }
     }
 }
