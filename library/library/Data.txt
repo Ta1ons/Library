@@ -1,0 +1,5 @@
+1,Oathbringer,Brandon,Stormlight,4
+2,The Way of Kings,Brandon,Stormlight,4
+3,Name of the Wind,Patrick,KingKiller,5
+4,IT,Stephen,,3
+5,Skyward,Brandon,Skyward,4

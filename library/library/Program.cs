@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using Library.Models;
 using Library.Services;
@@ -25,7 +26,7 @@ namespace Library
             }
 
             //add test books for testing only
-            CreateTestBooks();
+            //CreateTestBooks();
 
             bool showMenu = true;
             while (showMenu)
@@ -40,10 +41,11 @@ namespace Library
             Console.WriteLine("Please select from the following options:");
             Console.WriteLine("(1) Add a new book");
             Console.WriteLine("(2) Search for books");
-            Console.WriteLine("(3) Delete book(s)");
-            Console.WriteLine("(4) List all books");
-            Console.WriteLine("(5) User profile");
-            Console.WriteLine("(6) Exit");
+            Console.WriteLine("(3) Edit book(s)");
+            Console.WriteLine("(4) Delete book(s)");
+            Console.WriteLine("(5) List all books");
+            Console.WriteLine("(6) User profile");
+            Console.WriteLine("(7) Exit");
             Console.Write("\r\nPlease select an option: ");
 
             switch (Console.ReadLine())
@@ -55,15 +57,18 @@ namespace Library
                     SearchBooks();
                     return true;
                 case "3":
-                    DeleteBook();
+                    EditBook();
                     return true;
                 case "4":
-                    ListAllBooks();
+                    DeleteBook();
                     return true;
                 case "5":
-                    UserDetails();
+                    ListAllBooks();
                     return true;
                 case "6":
+                    UserDetails();
+                    return true;
+                case "7":
                     return false;
                 default:
                     return true;
@@ -131,13 +136,12 @@ namespace Library
 
             while (endSearching)
             {
-                //Create a list to store the books that match the search
-                var searchResults = new List<Book>();
+                //var searchResults = new List<Book>();
                 Console.Clear();
                 Console.WriteLine("Enter a keyword to search: ");
                 var bookSearch = Console.ReadLine();
 
-                searchResults = bookService.SearchBooks(bookSearch);
+                var searchResults = bookService.SearchBooks(bookSearch);
 
 
                 //If the results list has items in it, loop through them and print them out
@@ -163,7 +167,7 @@ namespace Library
             }
         }
 
-        public static void SearchInBookList(List<Book> listToAddResultsTo, string searchCriteria)
+        public static void SearchInBookList(string searchCriteria)
         {
             bookService.SearchBooks(searchCriteria);
         }
@@ -173,6 +177,73 @@ namespace Library
             Console.WriteLine($"{book.ID}, {book.title}, {book.author}, {book.series}, {book.overallRating}");
         }
 
+        public static void EditBook()
+        {
+            var editList = new List<Book>();
+            var endSearch = true;
+
+            while (endSearch)
+            {
+                editList.Clear();
+                Console.Clear();
+                Console.WriteLine("This option is to edit a book. Please enter a keyword to search: ");
+                var bookSearch = Console.ReadLine();
+
+                editList = bookService.SearchBooks(bookSearch);
+
+                if (editList.Count == 0)
+                {
+                    Console.WriteLine("No results found.");
+                }
+                else
+                {
+                    Console.WriteLine("Results found!");
+                    Console.WriteLine("|     ID     |     Title     |     Author     |     Series     |     Rating     |");
+                    foreach (var book in editList)
+                    {
+                        PrintBookDetails(book);
+                        Console.WriteLine("Would you like to edit this book? (y/n) ");
+                        if (Console.ReadLine() == "y")
+                        {
+                            var updatedBook = book;
+                            Console.WriteLine("Please select the option you wish to Edit:");
+                            Console.WriteLine("1) Title");
+                            Console.WriteLine("2) Author");
+                            Console.WriteLine("3) Series");
+                            Console.WriteLine("4) Rating");
+                            var choice = Console.ReadLine();
+                            {
+                                if (choice == "1")
+                                {
+                                    updatedBook.title = Console.ReadLine();
+                                }
+                                else if (choice == "2")
+                                {
+                                    updatedBook.author = Console.ReadLine();
+                                }
+                                else if (choice == "3")
+                                {
+                                    updatedBook.series = Console.ReadLine();
+                                }
+                                else
+                                {
+                                    int.TryParse (Console.ReadLine(), out updatedBook.overallRating);
+                                }
+                            }
+
+                            bookService.EditBook(updatedBook, book);
+
+                            Console.WriteLine("Book updated!");
+                        }
+                    }
+                }
+                Console.WriteLine("Would you like to search for another book(y/n)?");
+                if (Console.ReadLine() != "y")
+                {
+                    endSearch = false;
+                }
+            }
+        }
         public static void DeleteBook()
         {
             var removeList = new List<Book>();
@@ -206,16 +277,17 @@ namespace Library
                             Console.WriteLine("Book Deleted!");
                         }
                     }
-                    Console.WriteLine("Would you like to search for another book(y/n)?");
-                    if (Console.ReadLine() != "y")
-                    {
-                        endSearch = false;
-                    }
+                }
+                Console.WriteLine("Would you like to search for another book(y/n)?");
+                if (Console.ReadLine() != "y")
+                {
+                    endSearch = false;
                 }
             }
         }
         public static void ListAllBooks()
         {
+            Console.Clear();
             Console.WriteLine("|     ID     |     Title     |     Author     |     Series     |     Rating     |");
             var books = bookService.GetAllBooks();
 
