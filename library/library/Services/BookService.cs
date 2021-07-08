@@ -68,7 +68,13 @@ namespace Library.Services
         public void EditBook(Book updatedBook, Book book)
         {
             var newList = GetAllBooks();
-            newList.Remove(book);
+
+            foreach (Book existingBook in newList)
+                if (existingBook == book)
+                {
+                    newList.Remove(existingBook);
+                }
+            
             newList.Add(updatedBook);
             File.Create(path).Close();
 

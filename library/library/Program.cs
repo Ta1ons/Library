@@ -215,18 +215,22 @@ namespace Library
                             {
                                 if (choice == "1")
                                 {
+                                    Console.WriteLine("Enter new Title: ");
                                     updatedBook.title = Console.ReadLine();
                                 }
                                 else if (choice == "2")
                                 {
+                                    Console.WriteLine("Enter new Author: ");
                                     updatedBook.author = Console.ReadLine();
                                 }
                                 else if (choice == "3")
                                 {
+                                    Console.WriteLine("Enter new Series: ");
                                     updatedBook.series = Console.ReadLine();
                                 }
                                 else
                                 {
+                                    Console.WriteLine("Enter new Rating: ");
                                     int.TryParse (Console.ReadLine(), out updatedBook.overallRating);
                                 }
                             }
