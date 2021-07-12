@@ -13,15 +13,24 @@ namespace Library.Services
         public void AddBook(Book bookToAdd)
         {
             string[] lines = File.ReadAllLines(path);
-            int counter = 0;
+            int BookID = 0;
 
             foreach (string line in lines)
             {
-                counter++; 
+                int number = 0;
+                string[] stringToList = line.Split(",");
+                int.TryParse(stringToList[0], out number);
+                if ( number > BookID) //make sure this is the largest number
+                {
+                    BookID = number;
+                }
             }
-            bookToAdd.ID = counter + 1;
 
-            //books.Add(bookToAdd);
+            if (bookToAdd.ID == 0)
+            {
+                bookToAdd.ID = BookID + 1;
+            }            
+
             var bookString = ConvertBookToString(bookToAdd);
 
             if (!File.Exists(path))
@@ -53,32 +62,43 @@ namespace Library.Services
             return returnList;
         }
 
-        public void DeleteBook(Book badBook)
+        public void DeleteBook(Book bookToDelete)
         {
-            var allBooks = GetAllBooks();
-            allBooks.Remove(badBook);           
+            var bookList = GetAllBooks();
+
+            foreach ( Book book in bookList)
+                if ( bookToDelete.ID == book.ID)
+                {
+                    bookToDelete = book;
+                }
+
+            bookList.Remove(bookToDelete);
+
             File.Create(path).Close();
 
-            foreach (Book book in allBooks)
+            foreach (Book book in bookList)
             {
                 AddBook(book);
             }
         }
 
-        public void EditBook(Book updatedBook, Book book)
+        public void EditBook(Book updatedBook)
         {
-            var newList = GetAllBooks();
+            var bookList = GetAllBooks();
+            Book bookToDelete = new Book();
 
-            foreach (Book existingBook in newList)
-                if (existingBook == book)
+            foreach (Book book in bookList)
+                if (updatedBook.ID == book.ID)
                 {
-                    newList.Remove(existingBook);
+                    bookToDelete = book;
                 }
-            
-            newList.Add(updatedBook);
+
+            bookList.Remove(bookToDelete);
+            bookList.Add(updatedBook);
+
             File.Create(path).Close();
 
-            foreach (Book item in newList)
+            foreach (Book item in bookList)
             {
                 AddBook(item);
             }

@@ -25,9 +25,6 @@ namespace Library
                 authenticated = login.EnterLogin(userName);
             }
 
-            //add test books for testing only
-            //CreateTestBooks();
-
             bool showMenu = true;
             while (showMenu)
             {
@@ -38,7 +35,7 @@ namespace Library
         public static bool MainMenu()
         {
             Console.Clear();
-            Console.WriteLine("Please select from the following options:");
+            Console.WriteLine("Please select from the following options:\n");
             Console.WriteLine("(1) Add a new book");
             Console.WriteLine("(2) Search for books");
             Console.WriteLine("(3) Edit book(s)");
@@ -129,14 +126,12 @@ namespace Library
                 }
             }
         }
-
         public static void SearchBooks()
         {
             var endSearching = true;
 
             while (endSearching)
             {
-                //var searchResults = new List<Book>();
                 Console.Clear();
                 Console.WriteLine("Enter a keyword to search: ");
                 var bookSearch = Console.ReadLine();
@@ -205,7 +200,6 @@ namespace Library
                         Console.WriteLine("Would you like to edit this book? (y/n) ");
                         if (Console.ReadLine() == "y")
                         {
-                            var updatedBook = book;
                             Console.WriteLine("Please select the option you wish to Edit:");
                             Console.WriteLine("1) Title");
                             Console.WriteLine("2) Author");
@@ -216,28 +210,28 @@ namespace Library
                                 if (choice == "1")
                                 {
                                     Console.WriteLine("Enter new Title: ");
-                                    updatedBook.title = Console.ReadLine();
+                                    book.title = Console.ReadLine();
                                 }
                                 else if (choice == "2")
                                 {
                                     Console.WriteLine("Enter new Author: ");
-                                    updatedBook.author = Console.ReadLine();
+                                    book.author = Console.ReadLine();
                                 }
                                 else if (choice == "3")
                                 {
                                     Console.WriteLine("Enter new Series: ");
-                                    updatedBook.series = Console.ReadLine();
+                                    book.series = Console.ReadLine();
                                 }
                                 else
                                 {
                                     Console.WriteLine("Enter new Rating: ");
-                                    int.TryParse (Console.ReadLine(), out updatedBook.overallRating);
+                                    int.TryParse (Console.ReadLine(), out book.overallRating);
                                 }
                             }
 
-                            bookService.EditBook(updatedBook, book);
+                        bookService.EditBook(book);
 
-                            Console.WriteLine("Book updated!");
+                        Console.WriteLine("Book updated!");
                         }
                     }
                 }
@@ -301,10 +295,6 @@ namespace Library
             }
             Console.WriteLine("Press any key to return to main menu.");
             Console.ReadLine();
-        }
-        public static void CreateTestBooks()
-        {
-            bookService.AddBook(new Book { author = "Stephen King", overallRating = 4, title = "IT", ID = 1, series = "" });
         }
 
         public static void UserDetails()
