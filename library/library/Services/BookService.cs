@@ -2,13 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Library.Services
 {
     public class BookService
     {
         //private List<Book> books = new List<Book>();
-        private string path = @"C:\Gitprojects\Library\library\library\Data.txt";
+        private string path = @"C:\Gitprojects\Library\library\library\Data\BookData.txt";
 
         public void AddBook(Book bookToAdd)
         {
@@ -17,18 +18,17 @@ namespace Library.Services
 
             foreach (string line in lines)
             {
-                int number = 0;
                 string[] stringToList = line.Split(",");
-                int.TryParse(stringToList[0], out number);
+                int.TryParse(stringToList[0], out int number);
                 if ( number > BookID) //make sure this is the largest number
                 {
                     BookID = number;
                 }
             }
 
-            if (bookToAdd.ID == 0)
+            if (bookToAdd.bookID == 0)
             {
-                bookToAdd.ID = BookID + 1;
+                bookToAdd.bookID = BookID + 1;
             }            
 
             var bookString = ConvertBookToString(bookToAdd);
@@ -47,7 +47,8 @@ namespace Library.Services
         public List<Book> SearchBooks(string searchCriteria)
         {
             var returnList = new List<Book>();
-
+            //var sBooks = returnList.Where(b => b.author.Contains("Matt")).ToList();
+            
             string[] lines = File.ReadAllLines(path);
 
             foreach (string line in lines)
@@ -67,7 +68,7 @@ namespace Library.Services
             var bookList = GetAllBooks();
 
             foreach ( Book book in bookList)
-                if ( bookToDelete.ID == book.ID)
+                if ( bookToDelete.bookID == book.bookID)
                 {
                     bookToDelete = book;
                 }
@@ -88,7 +89,7 @@ namespace Library.Services
             Book bookToDelete = new Book();
 
             foreach (Book book in bookList)
-                if (updatedBook.ID == book.ID)
+                if (updatedBook.bookID == book.bookID)
                 {
                     bookToDelete = book;
                 }
@@ -120,7 +121,7 @@ namespace Library.Services
 
         private String ConvertBookToString(Book bookToAdd)
         {
-            return String.Join(',', new string[] { bookToAdd.ID.ToString(), bookToAdd.title, bookToAdd.author, bookToAdd.series, bookToAdd.overallRating.ToString() });
+            return String.Join(',', new string[] { bookToAdd.bookID.ToString(), bookToAdd.title, bookToAdd.author, bookToAdd.series, bookToAdd.overallRating.ToString() });
         }
 
         private Book ConvertStringToBook(string line)
@@ -129,7 +130,7 @@ namespace Library.Services
 
             Book book = new Book();
 
-            int.TryParse(stringToList[0], out book.ID);
+            int.TryParse(stringToList[0], out book.bookID);
             book.title = stringToList[1];
             book.author = stringToList[2];
             book.series = stringToList[3];

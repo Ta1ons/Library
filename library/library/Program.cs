@@ -11,6 +11,7 @@ namespace Library
 
         public static BookService bookService = new BookService();
         public static LoginService login = new LoginService();
+        public static UserService userService = new UserService();
 
         static void Main(string[] args)
         {
@@ -36,42 +37,146 @@ namespace Library
         {
             Console.Clear();
             Console.WriteLine("Please select from the following options:\n");
-            Console.WriteLine("(1) Add a new book");
-            Console.WriteLine("(2) Search for books");
-            Console.WriteLine("(3) Edit book(s)");
-            Console.WriteLine("(4) Delete book(s)");
-            Console.WriteLine("(5) List all books");
-            Console.WriteLine("(6) User profile");
-            Console.WriteLine("(7) Exit");
+            Console.WriteLine("(1) Lend a book");
+            Console.WriteLine("(2) Return a book");
+            Console.WriteLine("(3) Add a new book");
+            Console.WriteLine("(4) Search for books");
+            Console.WriteLine("(5) Edit book(s)");
+            Console.WriteLine("(6) Delete book(s)");
+            Console.WriteLine("(7) List all books");
+            Console.WriteLine("(8) User profile");
+            Console.WriteLine("(9) Exit");
             Console.Write("\r\nPlease select an option: ");
 
             switch (Console.ReadLine())
             {
                 case "1":
-                    AddNewBook();
+                    LendABook();
                     return true;
                 case "2":
-                    SearchBooks();
+                    ReturnABook();
                     return true;
                 case "3":
-                    EditBook();
+                    AddNewBook();
                     return true;
                 case "4":
-                    DeleteBook();
+                    SearchBooks();
                     return true;
                 case "5":
-                    ListAllBooks();
+                    EditBook();
                     return true;
                 case "6":
-                    UserDetails();
+                    DeleteBook();
                     return true;
                 case "7":
+                    ListAllBooks();
+                    return true;
+                case "8":
+                    UserDetails();
+                    return true;
+                case "9":
                     return false;
                 default:
                     return true;
             }
         }
 
+        public static void LendABook()
+        {
+            var endLending = true;
+            while (endLending)
+            {
+                Console.Clear();
+                Console.WriteLine("Who would you like to lend to? Enter a name:");
+                string borrower = Console.ReadLine();
+                var borrowerResult = userService.SearchBorrowers(borrower);
+
+                if (borrowerResult.Count == 0)
+                {
+                    Console.WriteLine("No results found.");
+                    Console.ReadLine();
+                }
+                else
+                {
+                    var currentBorrower = borrowerResult[0];
+                    Console.WriteLine("Enter a keyword for a book to lend: ");
+                    var bookSearch = Console.ReadLine();
+                    var bookSearchResults = bookService.SearchBooks(bookSearch);
+
+                    if (bookSearchResults.Count == 0)
+                    {
+                        Console.WriteLine("No results found.");
+                    }
+                    else
+                    {
+                        foreach (Book book in bookSearchResults)
+                        {
+                            Console.WriteLine($"Lend {book.title} book to {currentBorrower.name}?(y/n)");
+                            string lendingBook = Console.ReadLine();
+                            var bookToLend = book;
+                            if (lendingBook == "y")
+                            {
+                                userService.CreateLend(bookToLend, currentBorrower);
+                            }
+                        }
+                    }
+                }
+                Console.WriteLine("Would you like to lend another book(y/n)?");
+                if (Console.ReadLine() != "y")
+                {
+                    endLending = false;
+                }
+            }
+        }
+
+        public static void ReturnABook()
+        {
+            Console.Clear();
+            var endReturns = true;
+
+            while (endReturns)
+            {
+                Console.WriteLine("Enter a keyword for the book you want to return: ");
+                var bookSearch = Console.ReadLine();
+                var searchResults = bookService.SearchBooks(bookSearch);
+
+                if (searchResults.Count == 0)
+                {
+                    Console.WriteLine("No results found.");
+                }
+                else
+                {
+                    Console.WriteLine("Results found!");
+                    Console.WriteLine("|     ID     |     Title     |     Author     |     Series     |     Rating     |");
+                    foreach (var book in searchResults)
+                    {
+                        var bookhistory = userService.GetLendHistory(book.bookID);
+                        foreach (var item in bookhistory)
+                        {
+                            if (item.historyID > 0)
+                            {
+                                PrintBookDetails(book);
+                                Console.WriteLine("Would you like to return this book? (y/n) ");
+                                if (Console.ReadLine() == "y")
+                                {
+                                    userService.ReturnABook(book);
+                                    Console.WriteLine("Book returned!");
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("This book has not yet been borrowed. :(");
+                            }
+                        }
+                    }
+                }
+                Console.WriteLine("Would you like to return another book(y/n)?");
+                if (Console.ReadLine() != "y")
+                {
+                    endReturns = false;
+                }
+            }
+        }
         public static void AddNewBook()
         {
             var endAdding = true;
@@ -162,14 +267,14 @@ namespace Library
             }
         }
 
-        public static void SearchInBookList(string searchCriteria)
-        {
-            bookService.SearchBooks(searchCriteria);
-        }
+        //public static void SearchInBookList(string searchCriteria)
+        //{
+        //    bookService.SearchBooks(searchCriteria);
+        //}
 
         public static void PrintBookDetails(Book book)
         {
-            Console.WriteLine($"{book.ID}, {book.title}, {book.author}, {book.series}, {book.overallRating}");
+            Console.WriteLine($"{book.bookID}, {book.title}, {book.author}, {book.series}, {book.overallRating}");
         }
 
         public static void EditBook()
@@ -302,9 +407,9 @@ namespace Library
             Console.Clear();
             Console.WriteLine($"{login.CurrentUser.name}");
             Console.ReadLine();
-                //bookService.GetReviewsForBook()
-                //bookService.GetBorrowedHistory()
-                //bookService.GetRatingsForBook()
+            //var history = UserService.GetBorrowedHistory(login.CurrentUser.name)
+            //UserService.GetReviewsForBook()
+            //UserService.GetRatingsForBook()
         }
     }
 }

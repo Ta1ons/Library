@@ -16,4 +16,10 @@ namespace Library.Models
             name = aname;
         }
     }
+
+    public class Borrower
+    {
+        public int ID;
+        public string name;
+    }
 }

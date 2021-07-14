@@ -1,5 +1,5 @@
-1,The Way of Kings,Brandon,Stormlight,4
 2,Name of the Wind,Patrick,KingKiller,5
 3,Oathbringer,Brandon,Stormlight,4
 4,Skyward,Brandon,Skyward,4
 5,Starsight,Brandon,Skyward,4
+1,The Way of Kings,Brandon Sanderson,Stormlight,4

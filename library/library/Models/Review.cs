@@ -6,7 +6,10 @@ namespace Library.Models
 {
     public class Review
     {
+        public int reviewID;
+        public int userID;
+        public int bookID;
         public string review;
-        public int userRating;
+        public int bookRating;
     }
 }

@@ -2,7 +2,7 @@
 {
     public class Book
     {
-        public int ID;
+        public int bookID;
         public string title;
         public string author;
         public string series;
