@@ -151,16 +151,25 @@ namespace Library
                     foreach (var book in searchResults)
                     {
                         var bookhistory = userService.GetLendHistory(book.bookID);
+
                         foreach (var item in bookhistory)
                         {
-                            if (item.historyID > 0)
+                            if (item.historyID > 0 && !item.dateIn.HasValue)
                             {
                                 PrintBookDetails(book);
-                                Console.WriteLine("Would you like to return this book? (y/n) ");
-                                if (Console.ReadLine() == "y")
+                                var borrowers = userService.GetBorrowers();
+                                foreach (var borrower in borrowers)
                                 {
-                                    userService.ReturnABook(book);
-                                    Console.WriteLine("Book returned!");
+                                    if (item.userID == borrower.ID)
+                                    {
+                                        Console.WriteLine($"This book is currently lent to {borrower.name}");
+                                        Console.WriteLine("Would you like to return this book? (y/n) ");
+                                        if (Console.ReadLine() == "y")
+                                        {
+                                            userService.ReturnABook(book);
+                                            Console.WriteLine("Book returned!");
+                                        }
+                                    }
                                 }
                             }
                             else

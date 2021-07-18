@@ -81,7 +81,7 @@ namespace Library.Services
         {
             var historyList = GetAllLendHistory();
 
-            foreach( History history in historyList)
+            foreach ( History history in historyList)
             {
                 if (history.bookID == bookID)
                 {
@@ -166,6 +166,19 @@ namespace Library.Services
         private string ConvertHistoryToString(History history)
         {
             return String.Join(',', new string[] { history.historyID.ToString(), history.bookID.ToString(), history.userID.ToString(), history.dateOut.ToString(), history.dateIn.ToString() });
+        }
+
+        public List<Borrower> GetBorrowers()
+        {
+            var returnList = new List<Borrower>();
+            string[] lines = File.ReadAllLines(borrowerspath);
+
+            foreach (string line in lines)
+            {
+                var borrower = ConvertStringToBorrower(line);
+                returnList.Add(borrower);
+            }
+            return returnList;
         }
     }
 }
