@@ -1,5 +1,6 @@
-2,Name of the Wind,Patrick,KingKiller,5
-3,Oathbringer,Brandon,Stormlight,4
-4,Skyward,Brandon,Skyward,4
-5,Starsight,Brandon,Skyward,4
+2,Name of the Wind,Patrick Rothfuss,KingKiller,5
+3,Oathbringer,Brandon Sanderson,Stormlight,4
+4,Skyward,Brandon Sanderson,Skyward,4
+5,Starsight,Brandon Sanderson,Skyward,4
 1,The Way of Kings,Brandon Sanderson,Stormlight,4
+6,IT,Stephen King,,3

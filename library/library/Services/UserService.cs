@@ -77,19 +77,19 @@ namespace Library.Services
             }
         }
 
-        public List<History> GetLendHistory(int bookID)
+        public List<History> GetLendHistory(int userID)
         {
             var historyList = GetAllLendHistory();
+            List<History> lendersHistory = new List<History>();
 
             foreach ( History history in historyList)
             {
-                if (history.bookID == bookID)
+                if (history.userID == userID)
                 {
-                    historyList.Add(history);
+                    lendersHistory.Add(history);
                 }
             }
-
-            return historyList;
+            return lendersHistory;
         }
 
         public List<History> GetAllLendHistory()
@@ -106,7 +106,7 @@ namespace Library.Services
             return returnList;
         }
 
-        public void ReturnABook(Book book)
+        public void ReturnABook(History book)
         {
             var allBookHistory = GetAllLendHistory();
 
@@ -145,8 +145,8 @@ namespace Library.Services
             History history = new History();
 
             int.TryParse(stringToHistory[0], out history.historyID);
-            int.TryParse(stringToHistory[1], out history.userID);
-            int.TryParse(stringToHistory[2], out history.bookID);
+            int.TryParse(stringToHistory[1], out history.bookID);
+            int.TryParse(stringToHistory[2], out history.userID);
             DateTime.TryParse(stringToHistory[3], out DateTime dateTimeOut);
             history.dateOut = dateTimeOut;
             
