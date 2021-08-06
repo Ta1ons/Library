@@ -429,7 +429,7 @@ namespace Library
                             if (book.bookID == history.bookID)
                             {
                                 PrintBookDetails(book);
-                                Console.WriteLine($"Date Borrowed: {history.dateOut.ToShortDateString()} | Date Returned: {history.dateIn.Value.ToShortDateString()}");
+                                Console.WriteLine($"Date Borrowed: {history.dateOut.ToShortDateString()} | Date Returned: {history.dateIn?.ToShortDateString()}");
                             }
                         }
                     }

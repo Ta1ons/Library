@@ -6125,25 +6125,26 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\aschmidt\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\Adam\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
+    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Gitprojects\\Library\\library\\LibraryTest\\LibraryTest.csproj",
+      "projectUniqueName": "C:\\Users\\Adam\\source\\repos\\Ta1ons\\Library\\library\\LibraryTest\\LibraryTest.csproj",
       "projectName": "LibraryTest",
-      "projectPath": "C:\\Gitprojects\\Library\\library\\LibraryTest\\LibraryTest.csproj",
-      "packagesPath": "C:\\Users\\aschmidt\\.nuget\\packages\\",
-      "outputPath": "C:\\Gitprojects\\Library\\library\\LibraryTest\\obj\\",
+      "projectPath": "C:\\Users\\Adam\\source\\repos\\Ta1ons\\Library\\library\\LibraryTest\\LibraryTest.csproj",
+      "packagesPath": "C:\\Users\\Adam\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Adam\\source\\repos\\Ta1ons\\Library\\library\\LibraryTest\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\aschmidt\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Adam\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
@@ -6158,8 +6159,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Gitprojects\\Library\\library\\library\\Library.csproj": {
-              "projectPath": "C:\\Gitprojects\\Library\\library\\library\\Library.csproj"
+            "C:\\Users\\Adam\\source\\repos\\Ta1ons\\Library\\library\\library\\Library.csproj": {
+              "projectPath": "C:\\Users\\Adam\\source\\repos\\Ta1ons\\Library\\library\\library\\Library.csproj"
             }
           }
         }
