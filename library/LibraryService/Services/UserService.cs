@@ -32,21 +32,21 @@ namespace LibraryService.Services
             BookHistory bookHistory = new BookHistory();
 
             bookHistory.Book = book;
-            bookHistory.Borrower = borrower;
+            bookHistory.User = borrower;
             bookHistory.DateOut = DateTime.Now;
 
             _context.Add(bookHistory);
             _context.SaveChanges();
         }
 
-        public List<BookHistory> GetLendHistory(int userID)
+        public List<BookHistory> GetLendHistory(int userID) //.Include(x=>x.Borrower).Include(x=>x.Book)
         {
             var historyList = GetLendHistoryForBorrower(userID);
             List<BookHistory> lendersHistory = new List<BookHistory>();
 
             foreach (BookHistory history in historyList)
             {
-                if (history.Borrower.UserId == userID)
+                if (history.UserId == userID)
                 {
                     lendersHistory.Add(history);
                 }
@@ -56,12 +56,12 @@ namespace LibraryService.Services
 
         public List<BookHistory> GetLendHistoryForBorrower(int userId)
         {
-            return _context.BookHistories.Where(bookHistory => bookHistory.Borrower.UserId == userId).ToList(); //.Include(x=>x.Borrower).Include(x=>x.Book)
+            return _context.BookHistory.Include(x=>x.Book).Where(bookHistory => bookHistory.UserId == userId).ToList(); 
         }
 
         public void ReturnABook(BookHistory book)
         {
-            var bookHistory = _context.BookHistories.FirstOrDefault(x => x.BookHistoryId == book.BookHistoryId);
+            var bookHistory = _context.BookHistory.FirstOrDefault(x => x.BookHistoryId == book.BookHistoryId);
 
             bookHistory.DateIn = DateTime.Now;
 

@@ -27,6 +27,7 @@ namespace LibraryService.Services
 
             book.Title = bookToAdd.Title;
             book.Author = bookToAdd.Author;
+            book.Series = bookToAdd.Series;
 
             _context.Add(book);
             _context.SaveChanges();

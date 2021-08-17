@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace LibraryService.Data.Models
+﻿namespace LibraryService.Data.Models
 {
     public class User
     {
@@ -10,11 +6,5 @@ namespace LibraryService.Data.Models
         public string Name { get; set; }
         public string Email { get; set; }
         public bool IsBorrower { get; set; }
-
-        public User() { }
-        public User(string aname)
-        {
-            Name = aname;
-        }
     }
 }

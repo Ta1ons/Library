@@ -397,11 +397,11 @@ namespace Library
                 var borrowerHist = userService.GetLendHistoryForBorrower(person.UserId);
                 foreach(var history in borrowerHist)
                 {
-                    Console.WriteLine($"Title: {history.Book.Title} | Author: {history.Book.Author}");
+                    Console.WriteLine($"\nTitle: {history.Book.Title} | Author: {history.Book.Author}");
                     Console.WriteLine($"Date Borrowed: { history.DateOut.ToShortDateString()} | Date Returned: {history.DateIn?.ToShortDateString()}");
                 }
             }
-            Console.WriteLine("Press any key to return to main menu.");
+            Console.WriteLine("\nPress any key to return to main menu.");
             Console.ReadLine();
         }
     }

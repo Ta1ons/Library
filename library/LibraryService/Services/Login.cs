@@ -21,7 +21,9 @@ namespace LibraryService.Services
         {
             bool result = false;
 
-            _context.Users.Where(x => x.Name.Contains(login));
+            var signedin = _context.Users.Where(x => x.Name.Contains(login)).ToList();
+
+            if (signedin.Count > 0)
             {
                 result = true;
             }
