@@ -21,15 +21,28 @@ namespace LibraryService.Services
         //private string path = @"C:\Gitprojects\Library\library\library\Data\BookData.txt";
 
 
-        public void AddBook(Book bookToAdd)
+        public void SaveBook(Book bookToSave)
         {
-            Book book = new Book();
+            if (bookToSave.BookId > 0)
+            {
+                var book = _context.Books.FirstOrDefault(x => x.BookId == bookToSave.BookId);
+                if (book != null) 
+                {
+                    book.Title = bookToSave.Title;
+                    book.Author = bookToSave.Author;
+                    book.Series = bookToSave.Series;
+                    _context.Update(book);
+                }
+            }
+            else
+            {
+                Book book = new Book();
 
-            book.Title = bookToAdd.Title;
-            book.Author = bookToAdd.Author;
-            book.Series = bookToAdd.Series;
-
-            _context.Add(book);
+                book.Title = bookToSave.Title;
+                book.Author = bookToSave.Author;
+                book.Series = bookToSave.Series;
+                _context.Add(book);
+            }
             _context.SaveChanges();
         }
 
@@ -41,10 +54,14 @@ namespace LibraryService.Services
             b.Series.Contains(searchCriteria) ).ToList();
         }
 
-        public void DeleteBook(Book bookToDelete)
+        public void DeleteBook(int bookID)
         {
-            _context.Remove(bookToDelete);
-            _context.SaveChanges();
+            var book = _context.Books.FirstOrDefault(x => x.BookId == bookID);
+            if (book != null)
+            {
+                _context.Remove(book);
+                _context.SaveChanges();
+            }
         }
 
         public void UpdateBook(Book updatedBook)

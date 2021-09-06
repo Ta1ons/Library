@@ -224,7 +224,7 @@ namespace Library
                     newBook.Series = null;
                 }
 
-                bookService.AddBook(newBook);
+                bookService.SaveBook(newBook);
 
                 Console.WriteLine("Would you like to add another book(y/n)?");
                 if (Console.ReadLine() != "y")
@@ -359,7 +359,7 @@ namespace Library
                         Console.WriteLine("Would you like to delete this book? (y/n) ");
                         if (Console.ReadLine() == "y")
                         {
-                            bookService.DeleteBook(book);
+                            bookService.DeleteBook(book.BookId);
 
                             Console.WriteLine("Book Deleted!");
                         }

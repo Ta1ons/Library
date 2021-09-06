@@ -105,16 +105,17 @@ using LibraryService.Data.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 85 "C:\Gitprojects\Library\library\LibraryServerApp\Pages\BookOptions.razor"
+#line 70 "C:\Gitprojects\Library\library\LibraryServerApp\Pages\BookOptions.razor"
        
 
     private bool AddingNewBook = false;
-    private bool EditABook = false;
     private BookService _bookService;
 
     private List<Book> Books = new List<Book>();
     private Book BookToAdd;
-    private Book EditedBook;
+
+
+    private string searchCriteria = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -138,30 +139,44 @@ using LibraryService.Data.Models;
         AddingNewBook = true;
     }
 
-    private void SaveBook()
+    private void EditBook(Book book)
     {
-        if (AddingNewBook == true)
+        if (book != null)
         {
-            _bookService.AddBook(BookToAdd);
+            BookToAdd = book;
+        }
+        AddingNewBook = true;
+    }
+
+
+        private void SaveBook()
+        {
+            if (AddingNewBook == true)
+            {
+                _bookService.SaveBook(BookToAdd);
+            }
+
+            GetBooks();
+            NotAdding();
         }
 
-        if (EditABook == true)
+        private void DeleteBook(int bookID)
         {
-            _bookService.UpdateBook(EditedBook);
+            _bookService.DeleteBook(bookID);
+            GetBooks();
         }
-        GetBooks();
-        NotAdding();
-    }
 
-    private void NotEditing()
-    {
-        EditABook = false;
-    }
+        private void Search()
+        {
+            Books = _bookService.SearchBooks(searchCriteria);
+        }
 
-    private void Editing()
-    {
-        EditABook = true;
-    }
+        private void Clear()
+        {
+            searchCriteria = string.Empty;
+            GetBooks();
+        }
+    
 
 #line default
 #line hidden
