@@ -10,5 +10,6 @@ namespace LibraryService.Data.Models
         public string Author { get; set; }
         public string Title { get; set; }
         public string Series { get; set; }
+        public int? SeriesNo { get; set; }
     }
 }

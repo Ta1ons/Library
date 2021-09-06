@@ -105,7 +105,7 @@ using LibraryService.Data.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 70 "C:\Gitprojects\Library\library\LibraryServerApp\Pages\BookOptions.razor"
+#line 77 "C:\Gitprojects\Library\library\LibraryServerApp\Pages\BookOptions.razor"
        
 
     private bool AddingNewBook = false;

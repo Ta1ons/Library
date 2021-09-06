@@ -23,6 +23,7 @@ namespace LibraryService.Services
 
         public void SaveBook(Book bookToSave)
         {
+
             if (bookToSave.BookId > 0)
             {
                 var book = _context.Books.FirstOrDefault(x => x.BookId == bookToSave.BookId);
@@ -31,6 +32,7 @@ namespace LibraryService.Services
                     book.Title = bookToSave.Title;
                     book.Author = bookToSave.Author;
                     book.Series = bookToSave.Series;
+                    book.SeriesNo = bookToSave.SeriesNo;
                     _context.Update(book);
                 }
             }
@@ -41,6 +43,7 @@ namespace LibraryService.Services
                 book.Title = bookToSave.Title;
                 book.Author = bookToSave.Author;
                 book.Series = bookToSave.Series;
+                book.SeriesNo = bookToSave.SeriesNo;
                 _context.Add(book);
             }
             _context.SaveChanges();
