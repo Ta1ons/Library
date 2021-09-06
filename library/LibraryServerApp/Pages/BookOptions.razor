@@ -1,0 +1,141 @@
+﻿@using LibraryService.Services;
+@using LibraryService.Data.Models;
+
+@page "/Books"
+
+<h1>Books</h1>
+
+
+
+@if (!AddingNewBook && !EditABook)
+{
+    @if (Books == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    { 
+        <input type="button" @onclick="Adding" value="Add New Book" />
+        <input type="button" @onclick="Editing" value="Edit A Book" />
+        <input type="button" value="Delete A Book" />
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Series</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var book in Books)
+                {
+                    <tr>
+                        <td>@book.Title</td>
+                        <td>@book.Author</td>
+                        <td>@book.Series</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+
+@if (AddingNewBook)
+{
+    <div>
+        <h2>Adding New Book</h2>
+        <div>
+            <label>Title</label>
+            <input class="form-control" type="text" @bind="BookToAdd.Title" />
+        </div>
+        <div>
+            <label>Author</label>
+            <input class="form-control" type="text" @bind="BookToAdd.Author" />
+        </div>
+        <div>
+            <label>Series</label>
+            <input class="form-control" type="text" @bind="BookToAdd.Series" />
+        </div>
+        <input class="btn btn-primary" type="button" @onclick="SaveBook" value="Save" />
+        <input class="btn btn-primary" type="button" @onclick="NotAdding" value="Cancel" />
+    </div>
+}
+
+@if (EditABook)
+{
+    <div>
+        <h2>Edit A Book</h2>
+        <div class="form-group">
+            <label for="editingBook">Editing A Book</label>
+            <InputRadioGroup id="editingBook" @bind-Value="EditABook" class="form-control">
+                @foreach (var book in Books)
+                    {
+                    <InputRadio Value="book.BookId" /> @book.Title
+                    }
+            </InputRadioGroup>
+        </div>
+        <input class="btn btn-primary" type="button" @onclick="SaveBook" value="Save" />
+        <input class="btn btn-primary" type="button" @onclick="NotEditing" value="Cancel" />
+    </div>
+}
+
+
+@code {
+
+    private bool AddingNewBook = false;
+    private bool EditABook = false;
+    private BookService _bookService;
+
+    private List<Book> Books = new List<Book>();
+    private Book BookToAdd;
+    private Book EditedBook;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _bookService = new BookService();
+        GetBooks();
+    }
+
+    private void GetBooks()
+    {
+        Books = _bookService.GetAllBooks();
+    }
+
+    private void NotAdding()
+    {
+        AddingNewBook = false;
+    }
+
+    private void Adding()
+    {
+        BookToAdd = new Book();
+        AddingNewBook = true;
+    }
+
+    private void SaveBook()
+    {
+        if (AddingNewBook == true)
+        {
+            _bookService.AddBook(BookToAdd);
+        }
+
+        if (EditABook == true)
+        {
+            _bookService.UpdateBook(EditedBook);
+        }
+        GetBooks();
+        NotAdding();
+    }
+
+    private void NotEditing()
+    {
+        EditABook = false;
+    }
+
+    private void Editing()
+    {
+        EditABook = true;
+    }
+}
