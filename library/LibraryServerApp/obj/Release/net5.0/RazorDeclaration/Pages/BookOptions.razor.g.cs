@@ -82,14 +82,105 @@ using LibraryServerApp.Shared;
 #line default
 #line hidden
 #nullable disable
-    [Microsoft.AspNetCore.Components.RouteAttribute("/")]
-    public partial class Index : Microsoft.AspNetCore.Components.ComponentBase
+#nullable restore
+#line 1 "C:\Users\Adam\Source\Repos\Ta1ons\Library\library\LibraryServerApp\Pages\BookOptions.razor"
+using LibraryService.Services;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 2 "C:\Users\Adam\Source\Repos\Ta1ons\Library\library\LibraryServerApp\Pages\BookOptions.razor"
+using LibraryService.Data.Models;
+
+#line default
+#line hidden
+#nullable disable
+    [Microsoft.AspNetCore.Components.RouteAttribute("/Books")]
+    public partial class BookOptions : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 70 "C:\Users\Adam\Source\Repos\Ta1ons\Library\library\LibraryServerApp\Pages\BookOptions.razor"
+       
+
+    private bool AddingNewBook = false;
+    private BookService _bookService;
+
+    private List<Book> Books = new List<Book>();
+    private Book BookToAdd;
+
+
+    private string searchCriteria = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _bookService = new BookService();
+        GetBooks();
+    }
+
+    private void GetBooks()
+    {
+        Books = _bookService.GetAllBooks();
+    }
+
+    private void NotAdding()
+    {
+        AddingNewBook = false;
+    }
+
+    private void Adding()
+    {
+        BookToAdd = new Book();
+        AddingNewBook = true;
+    }
+
+    private void EditBook(Book book)
+    {
+        if (book != null)
+        {
+            BookToAdd = book;
+        }
+        AddingNewBook = true;
+    }
+
+
+        private void SaveBook()
+        {
+            if (AddingNewBook == true)
+            {
+                _bookService.SaveBook(BookToAdd);
+            }
+
+            GetBooks();
+            NotAdding();
+        }
+
+        private void DeleteBook(int bookID)
+        {
+            _bookService.DeleteBook(bookID);
+            GetBooks();
+        }
+
+        private void Search()
+        {
+            Books = _bookService.SearchBooks(searchCriteria);
+        }
+
+        private void Clear()
+        {
+            searchCriteria = string.Empty;
+            GetBooks();
+        }
+    
+
+#line default
+#line hidden
+#nullable disable
     }
 }
 #pragma warning restore 1591
