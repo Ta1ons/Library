@@ -58,7 +58,7 @@ namespace LibraryService.Services
         }
 
         public void DeleteBook(int bookID)
-        {
+        {      
             var book = _context.Books.FirstOrDefault(x => x.BookId == bookID);
             if (book != null)
             {

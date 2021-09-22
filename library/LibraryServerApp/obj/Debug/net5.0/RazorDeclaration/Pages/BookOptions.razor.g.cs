@@ -105,7 +105,7 @@ using LibraryService.Data.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 77 "C:\Gitprojects\Library\library\LibraryServerApp\Pages\BookOptions.razor"
+#line 78 "C:\Gitprojects\Library\library\LibraryServerApp\Pages\BookOptions.razor"
        
 
     private bool AddingNewBook = false;
@@ -149,38 +149,41 @@ using LibraryService.Data.Models;
     }
 
 
-        private void SaveBook()
+    private void SaveBook()
+    {
+        if (AddingNewBook == true)
         {
-            if (AddingNewBook == true)
-            {
-                _bookService.SaveBook(BookToAdd);
-            }
-
-            GetBooks();
-            NotAdding();
+            _bookService.SaveBook(BookToAdd);
         }
 
-        private void DeleteBook(int bookID)
-        {
-            _bookService.DeleteBook(bookID);
-            GetBooks();
-        }
+        GetBooks();
+        NotAdding();
+    }
 
-        private void Search()
-        {
-            Books = _bookService.SearchBooks(searchCriteria);
-        }
+    private async Task DeleteBook(Book book)
+    {
+        if (!await JSRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete '{book.Title}'?"))
+            return;
 
-        private void Clear()
-        {
-            searchCriteria = string.Empty;
-            GetBooks();
-        }
-    
+        _bookService.DeleteBook(book.BookId);
+        GetBooks();
+    }
+
+    private void Search()
+    {
+        Books = _bookService.SearchBooks(searchCriteria);
+    }
+
+    private void Clear()
+    {
+        searchCriteria = string.Empty;
+        GetBooks();
+    }
 
 #line default
 #line hidden
 #nullable disable
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime JSRuntime { get; set; }
     }
 }
 #pragma warning restore 1591

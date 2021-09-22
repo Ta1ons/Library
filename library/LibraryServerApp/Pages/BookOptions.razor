@@ -1,5 +1,6 @@
 ﻿@using LibraryService.Services;
 @using LibraryService.Data.Models;
+@inject IJSRuntime JSRuntime
 
 @page "/Books"
 
@@ -37,7 +38,7 @@
                         <td>@book.Series</td>
                         <td>@book.SeriesNo</td>
                         <td></td>
-                        <td><input type="button" @onclick="()=>DeleteBook(book.BookId)" value="Delete" /></td>
+                        <td><input type="button" @onclick="()=>DeleteBook(book)" value="Delete" /></td>
                         <td><input type="button" @onclick="()=>EditBook(book)" value="Edit" /></td>
                     </tr>
                 }
@@ -49,27 +50,27 @@
 
 @if (AddingNewBook)
 {
-<div>
-    <h2>Adding New Book</h2>
     <div>
-        <label>Title</label>
-        <input class="form-control" type="text" @bind="BookToAdd.Title" />
+        <h2>Adding New Book</h2>
+        <div>
+            <label>Title</label>
+            <input class="form-control" type="text" @bind="BookToAdd.Title" />
+        </div>
+        <div>
+            <label>Author</label>
+            <input class="form-control" type="text" @bind="BookToAdd.Author" />
+        </div>
+        <div>
+            <label>Series</label>
+            <input class="form-control" type="text" @bind="BookToAdd.Series" />
+        </div>
+        <div>
+            <label>Series No.</label>
+            <input class="form-control" type="text" @bind="BookToAdd.SeriesNo" />
+        </div>
+        <input class="btn btn-primary" type="button" @onclick="SaveBook" value="Save" />
+        <input class="btn btn-primary" type="button" @onclick="NotAdding" value="Cancel" />
     </div>
-    <div>
-        <label>Author</label>
-        <input class="form-control" type="text" @bind="BookToAdd.Author" />
-    </div>
-    <div>
-        <label>Series</label>
-        <input class="form-control" type="text" @bind="BookToAdd.Series" />
-    </div>
-    <div>
-        <label>Series No.</label>
-        <input class="form-control" type="text" @bind="BookToAdd.SeriesNo" />
-    </div>
-    <input class="btn btn-primary" type="button" @onclick="SaveBook" value="Save" />
-    <input class="btn btn-primary" type="button" @onclick="NotAdding" value="Cancel" />
-</div>
 }
 
 
@@ -117,31 +118,34 @@
     }
 
 
-        private void SaveBook()
+    private void SaveBook()
+    {
+        if (AddingNewBook == true)
         {
-            if (AddingNewBook == true)
-            {
-                _bookService.SaveBook(BookToAdd);
-            }
-
-            GetBooks();
-            NotAdding();
+            _bookService.SaveBook(BookToAdd);
         }
 
-        private void DeleteBook(int bookID)
-        {
-            _bookService.DeleteBook(bookID);
-            GetBooks();
-        }
-
-        private void Search()
-        {
-            Books = _bookService.SearchBooks(searchCriteria);
-        }
-
-        private void Clear()
-        {
-            searchCriteria = string.Empty;
-            GetBooks();
-        }
+        GetBooks();
+        NotAdding();
     }
+
+    private async Task DeleteBook(Book book)
+    {
+        if (!await JSRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete '{book.Title}'?"))
+            return;
+
+        _bookService.DeleteBook(book.BookId);
+        GetBooks();
+    }
+
+    private void Search()
+    {
+        Books = _bookService.SearchBooks(searchCriteria);
+    }
+
+    private void Clear()
+    {
+        searchCriteria = string.Empty;
+        GetBooks();
+    }
+}
