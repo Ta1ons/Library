@@ -83,6 +83,13 @@ using LibraryServerApp.Shared;
 #line hidden
 #nullable disable
 #nullable restore
+#line 11 "C:\Gitprojects\Library\library\LibraryServerApp\_Imports.razor"
+using LibraryServerApp.Components;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
 #line 1 "C:\Gitprojects\Library\library\LibraryServerApp\Pages\BookOptions.razor"
 using LibraryService.Services;
 
@@ -105,17 +112,17 @@ using LibraryService.Data.Models;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 78 "C:\Gitprojects\Library\library\LibraryServerApp\Pages\BookOptions.razor"
+#line 86 "C:\Gitprojects\Library\library\LibraryServerApp\Pages\BookOptions.razor"
        
 
     private bool AddingNewBook = false;
     private BookService _bookService;
-
     private List<Book> Books = new List<Book>();
     private Book BookToAdd;
-
-
+    private int bookNo;
+    private bool DialogIsOpen = false;
     private string searchCriteria = string.Empty;
+    private string message;
 
     protected override async Task OnInitializedAsync()
     {
@@ -160,14 +167,28 @@ using LibraryService.Data.Models;
         NotAdding();
     }
 
-    private async Task DeleteBook(Book book)
+    private void OpenDialog(Book book)
     {
-        if (!await JSRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete '{book.Title}'?"))
-            return;
-
-        _bookService.DeleteBook(book.BookId);
-        GetBooks();
+        DialogIsOpen = true;
+        bookNo = book.BookId;
+        message = "Do you want to delete \"" + book.Title + book.Author + "\"?";
     }
+
+    private async Task OnDialogClose(bool isOk)
+    {
+        if (isOk)
+        {
+            _bookService.DeleteBook(bookNo);
+            GetBooks();
+        }
+        DialogIsOpen = false;
+    }
+
+    //private void DeleteBook(Book book)
+    //{
+    //    _bookService.DeleteBook(book.BookId);
+    //    GetBooks();
+    //}
 
     private void Search()
     {
@@ -183,7 +204,6 @@ using LibraryService.Data.Models;
 #line default
 #line hidden
 #nullable disable
-        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IJSRuntime JSRuntime { get; set; }
     }
 }
 #pragma warning restore 1591

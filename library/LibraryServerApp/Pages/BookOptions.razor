@@ -1,6 +1,5 @@
 ﻿@using LibraryService.Services;
 @using LibraryService.Data.Models;
-@inject IJSRuntime JSRuntime
 
 @page "/Books"
 
@@ -38,8 +37,8 @@
                         <td>@book.Series</td>
                         <td>@book.SeriesNo</td>
                         <td></td>
-                        <td><input type="button" @onclick="()=>DeleteBook(book)" value="Delete" /></td>
-                        <td><input type="button" @onclick="()=>EditBook(book)" value="Edit" /></td>
+                        <td><input type="button" @onclick="() => OpenDialog(book)" value="Delete" /></td>
+                        <td><input type="button" @onclick="() => EditBook(book)" value="Edit" /></td>
                     </tr>
                 }
             </tbody>
@@ -73,18 +72,27 @@
     </div>
 }
 
+@if (DialogIsOpen)
+{
+    <Dialog Caption="Delete the book"
+            Message="@message"
+            OnClose="@OnDialogClose"
+            Type="Dialog.Category.DeleteNot">
+    </Dialog>
+}
+
 
 
 @code {
 
     private bool AddingNewBook = false;
     private BookService _bookService;
-
     private List<Book> Books = new List<Book>();
     private Book BookToAdd;
-
-
+    private int bookNo;
+    private bool DialogIsOpen = false;
     private string searchCriteria = string.Empty;
+    private string message;
 
     protected override async Task OnInitializedAsync()
     {
@@ -129,14 +137,28 @@
         NotAdding();
     }
 
-    private async Task DeleteBook(Book book)
+    private void OpenDialog(Book book)
     {
-        if (!await JSRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete '{book.Title}'?"))
-            return;
-
-        _bookService.DeleteBook(book.BookId);
-        GetBooks();
+        DialogIsOpen = true;
+        bookNo = book.BookId;
+        message = "Do you want to delete \"" + book.Title + book.Author + "\"?";
     }
+
+    private async Task OnDialogClose(bool isOk)
+    {
+        if (isOk)
+        {
+            _bookService.DeleteBook(bookNo);
+            GetBooks();
+        }
+        DialogIsOpen = false;
+    }
+
+    //private void DeleteBook(Book book)
+    //{
+    //    _bookService.DeleteBook(book.BookId);
+    //    GetBooks();
+    //}
 
     private void Search()
     {

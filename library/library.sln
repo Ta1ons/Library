@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryTest", "LibraryTest\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryService", "LibraryService\LibraryService.csproj", "{83D7E08C-4D37-4CB7-AF24-71F883392A92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryServerApp", "LibraryServerApp\LibraryServerApp.csproj", "{969325B4-6814-43C0-A7FF-4B8FC14CA596}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryServerApp", "LibraryServerApp\LibraryServerApp.csproj", "{969325B4-6814-43C0-A7FF-4B8FC14CA596}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

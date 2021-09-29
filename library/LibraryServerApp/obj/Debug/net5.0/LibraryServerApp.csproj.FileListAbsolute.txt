@@ -88,3 +88,5 @@ C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\LibraryServerAp
 C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\LibraryServerApp.genruntimeconfig.cache
 C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\RazorDeclaration\Pages\BookOptions.razor.g.cs
 C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\Razor\Pages\BookOptions.razor.g.cs
+C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\RazorDeclaration\Components\Dialog.razor.g.cs
+C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\Razor\Components\Dialog.razor.g.cs

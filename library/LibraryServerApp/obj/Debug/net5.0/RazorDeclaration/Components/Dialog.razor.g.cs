@@ -4,7 +4,7 @@
 #pragma warning disable 0649
 #pragma warning disable 0169
 
-namespace LibraryServerApp.Shared
+namespace LibraryServerApp.Components
 {
     #line hidden
     using System;
@@ -89,7 +89,7 @@ using LibraryServerApp.Components;
 #line default
 #line hidden
 #nullable disable
-    public partial class SurveyPrompt : Microsoft.AspNetCore.Components.ComponentBase
+    public partial class Dialog : Microsoft.AspNetCore.Components.ComponentBase
     {
         #pragma warning disable 1998
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
@@ -97,11 +97,30 @@ using LibraryServerApp.Components;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 12 "C:\Gitprojects\Library\library\LibraryServerApp\Shared\SurveyPrompt.razor"
+#line 31 "C:\Gitprojects\Library\library\LibraryServerApp\Components\Dialog.razor"
        
-    // Demonstrates how a parent component can supply parameters
-    [Parameter]
-    public string Title { get; set; }
+
+    [Parameter] public string Caption { get; set; }
+    [Parameter] public string Message { get; set; }
+    [Parameter] public EventCallback<bool> OnClose { get; set; }
+    [Parameter] public Category Type { get; set; }
+    
+    private Task Cancel()
+    {
+        return OnClose.InvokeAsync(false);
+    }
+
+    private Task Ok()
+    {
+        return OnClose.InvokeAsync(true);
+    }
+
+    public enum Category
+    {
+        Okay,
+        SaveNot,
+        DeleteNot
+    }
 
 #line default
 #line hidden
