@@ -97,7 +97,7 @@ using LibraryServerApp.Components;
         }
         #pragma warning restore 1998
 #nullable restore
-#line 31 "C:\Gitprojects\Library\library\LibraryServerApp\Components\Dialog.razor"
+#line 35 "C:\Gitprojects\Library\library\LibraryServerApp\Components\Dialog.razor"
        
 
     [Parameter] public string Caption { get; set; }
@@ -119,7 +119,8 @@ using LibraryServerApp.Components;
     {
         Okay,
         SaveNot,
-        DeleteNot
+        DeleteNot,
+        YesorNo
     }
 
 #line default

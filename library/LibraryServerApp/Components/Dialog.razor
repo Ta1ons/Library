@@ -22,6 +22,10 @@
                         <button type="button" class="btn btn-danger" @onclick=@Ok> Delete </button>
                         <button type="button" class="btn btn-warning" @onclick="@Cancel"> Don't Delete </button>
                         break;
+                    case Category.YesorNo:
+                        <button type="button" class="btn btn-danger" @onclick=@Ok> Yes </button>
+                        <button type="button" class="btn btn-warning" @onclick="@Cancel"> No </button>
+                        break;
                 }
             </div>
         </div>
@@ -49,6 +53,7 @@
     {
         Okay,
         SaveNot,
-        DeleteNot
+        DeleteNot,
+        YesorNo
     }
 }

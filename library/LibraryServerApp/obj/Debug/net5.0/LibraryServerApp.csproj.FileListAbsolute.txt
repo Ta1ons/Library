@@ -50,7 +50,6 @@ C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\LibraryServerAp
 C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\LibraryServerApp.MvcApplicationPartsAssemblyInfo.cache
 C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\LibraryServerApp.RazorComponent.input.cache
 C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\RazorDeclaration\App.razor.g.cs
-C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\RazorDeclaration\Pages\Counter.razor.g.cs
 C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\RazorDeclaration\Pages\Index.razor.g.cs
 C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\RazorDeclaration\Shared\SurveyPrompt.razor.g.cs
 C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\RazorDeclaration\_Imports.razor.g.cs
@@ -62,7 +61,6 @@ C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\LibraryServerAp
 C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\LibraryServerApp.TagHelpers.output.cache
 C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\LibraryServerApp.RazorCoreGenerate.cache
 C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\Razor\App.razor.g.cs
-C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\Razor\Pages\Counter.razor.g.cs
 C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\Razor\Pages\Index.razor.g.cs
 C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\Razor\Shared\SurveyPrompt.razor.g.cs
 C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\Razor\_Imports.razor.g.cs
@@ -90,3 +88,5 @@ C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\RazorDeclaratio
 C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\Razor\Pages\BookOptions.razor.g.cs
 C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\RazorDeclaration\Components\Dialog.razor.g.cs
 C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\Razor\Components\Dialog.razor.g.cs
+C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\RazorDeclaration\Pages\Borrowing.razor.g.cs
+C:\Gitprojects\Library\library\LibraryServerApp\obj\Debug\net5.0\Razor\Pages\Borrowing.razor.g.cs

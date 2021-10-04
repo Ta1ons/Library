@@ -6,3 +6,4 @@ C:\Gitprojects\Library\library\LibraryService\obj\Debug\netcoreapp3.1\LibrarySer
 C:\Gitprojects\Library\library\LibraryService\obj\Debug\netcoreapp3.1\LibraryService.csproj.CoreCompileInputs.cache
 C:\Gitprojects\Library\library\LibraryService\obj\Debug\netcoreapp3.1\LibraryService.dll
 C:\Gitprojects\Library\library\LibraryService\obj\Debug\netcoreapp3.1\LibraryService.pdb
+C:\Gitprojects\Library\library\LibraryService\obj\Debug\netcoreapp3.1\LibraryService.csproj.AssemblyReference.cache

@@ -1,0 +1,240 @@
+﻿@using LibraryService.Services;
+@using LibraryService.Data.Models;
+
+@page "/Borrowing"
+
+<h1>Borrowing</h1>
+
+@if (!Lending && !Returning)
+{
+    @if (Users == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <input class="form-control mb-2 mr-sm-2" type="text" @bind="searchCriteria" placeholder="Search for borrower" />
+        <input class="btn btn-primary" type="button" @onclick="SearchBorrowers" value="Search" />
+        <input class="btn btn-primary" type="button" @onclick="ClearBorrowers" value="Clear" />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Users)
+                {
+                <tr>
+                    <td>@user.Name</td>
+                    <td>@user.Email</td>
+                    <td></td>
+                    <td><input type="button" @onclick="() => LendABook(user)" value="Lend" /></td>
+                    <td><input type="button" @onclick="() => ReturnABook(user)" value="History/Return" /></td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+@if (Lending)
+{
+    <div>
+        <h2></h2>
+        <h2>Find the book</h2>
+        <input class="form-control mb-2 mr-sm-2" type="text" @bind="searchCriteria" placeholder="Enter Keyword." />
+        <input class="btn btn-primary" type="button" @onclick="SearchBook" value="Search" />
+        <input class="btn btn-primary" type="button" @onclick="ClearBook" value="Clear" />
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Series</th>
+                    <th>Series No.</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var book in Books)
+                {
+                    <tr>
+                        <td>@book.Title</td>
+                        <td>@book.Author</td>
+                        <td>@book.Series</td>
+                        <td>@book.SeriesNo</td>
+                        <td></td>
+                        <td><input class="btn btn-primary" type="button" @onclick="() => OpenDialogLend(book)" value="Select" /></td>
+                        <td><input class="btn btn-primary" type="button" @onclick="NotLending" value="Cancel" /></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@if (Returning)
+{
+    <div>
+        <h2>History</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Book</th>
+                    <th>Author</th>
+                    <th>Date Out</th>
+                    <th>Date Returned</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var history in bookHistories)
+                {
+                    <tr>
+                        <td>@history.Book.Title</td>
+                        <td>@history.Book.Author</td>
+                        <td>@history.DateOut</td>
+                        <td>@history.DateIn</td>
+                        <td></td>
+                        <td><input class="btn btn-primary" type="button" @onclick="() => OpenDialogReturn(history)" value="Return" /></td>
+                        <td><input class="btn btn-primary" type="button" @onclick="NotLending" value="Cancel" /></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@if (DialogIsOpenBook)
+{
+    <Dialog Caption="Are you sure?"
+            Message="@message"
+            OnClose="@OnDialogCloseBook"
+            Type="Dialog.Category.YesorNo">
+    </Dialog>
+}
+
+@if (DialogIsOpenHist)
+{
+    <Dialog Caption="Are you sure?"
+            Message="@message"
+            OnClose="@OnDialogCloseHist"
+            Type="Dialog.Category.YesorNo">
+    </Dialog>
+}
+
+
+@code {
+
+    private bool Lending = false;
+    private bool Returning = false;
+    private UserService _userService;
+    private BookService _bookService;
+    private List<User> Users = new List<User>();
+    private List<Book> Books = new List<Book>();
+    private List<BookHistory> bookHistories = new List<BookHistory>();
+
+    private BookHistory NewBookHistory;
+    private string searchCriteria = string.Empty;
+
+    private User Borrower;
+    private Book wholebook;
+
+    private string message;
+    private bool DialogIsOpenBook = false;
+    private bool DialogIsOpenHist = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _userService = new UserService();
+        _bookService = new BookService();
+        GetUsers();
+    }
+
+    public void GetUsers()
+    {
+        Users = _userService.GetAllBorrowers();
+    }
+
+    private void GetBooks()
+    {
+        Books = _bookService.GetAllBooks();
+    }
+
+    private void NotLending()
+    {
+        Lending = false;
+        Returning = false;
+    }
+
+    private void LendABook(User user)
+    {
+        GetBooks();
+        NewBookHistory = new BookHistory();
+        Borrower = user;
+        Lending = true;
+    }
+
+    private void ReturnABook(User user)
+    {
+        bookHistories = _userService.GetLendHistoryForBorrower(user.UserId);
+        Borrower = user;
+        Returning = true;
+    }
+
+    private void SearchBorrowers()
+    {
+        Users = _userService.SearchForBorrowers(searchCriteria);
+    }
+
+    private void ClearBorrowers()
+    {
+        searchCriteria = string.Empty;
+        GetUsers();
+    }
+
+    private void SearchBook()
+    {
+        Books = _bookService.SearchBooks(searchCriteria);
+    }
+
+    private void ClearBook()
+    {
+        searchCriteria = string.Empty;
+        GetBooks();
+    }
+
+    private void OpenDialogLend(Book book)
+    {
+        DialogIsOpenBook = true;
+        wholebook = book;
+        message = "Do you want to lend \"" + wholebook.Title + "\" to " + Borrower.Name + "?";
+    }
+
+    private async Task OnDialogCloseBook(bool isOk)
+    {
+        if (isOk)
+        {
+            _userService.CreateLend(wholebook, Borrower);
+            Lending = false;
+        }
+        DialogIsOpenBook = false;
+    }
+
+    private void OpenDialogReturn(BookHistory History)
+    {
+        DialogIsOpenHist = true;
+        NewBookHistory = History;
+        message = "Has " + Borrower.Name + " returned \"" + NewBookHistory.Book.Title + "\"?";
+    }
+
+    private async Task OnDialogCloseHist(bool isOk)
+    {
+        if (isOk)
+        {
+            _userService.ReturnABook(NewBookHistory);
+            Returning = false;
+        }
+        DialogIsOpenHist = false;
+    }
+}
