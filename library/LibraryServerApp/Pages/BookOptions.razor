@@ -15,10 +15,11 @@
     }
     else
     {
-        <input type="button" @onclick="Adding" value="Add New Book" />
+        <input type="button" @onclick=Adding value="Add New Book" />
         <input class="form-control mb-2 mr-sm-2" type="text" @bind="searchCriteria" placeholder="Search" />
-        <input class="btn btn-primary" type="button" @onclick="Search" value="Search" />
-        <input class="btn btn-primary" type="button" @onclick="Clear" value="Clear" />
+        <input class="btn btn-primary" type="button" @onclick=Search value="Search" />
+        <input class="btn btn-primary" type="button" @onclick=Clear value="Clear" />
+
         <table class="table">
             <thead>
                 <tr>
@@ -67,8 +68,8 @@
             <label>Series No.</label>
             <input class="form-control" type="text" @bind="BookToAdd.SeriesNo" />
         </div>
-        <input class="btn btn-primary" type="button" @onclick="SaveBook" value="Save" />
-        <input class="btn btn-primary" type="button" @onclick="NotAdding" value="Cancel" />
+        <input class="btn btn-primary" type="button" @onclick=SaveBook value="Save" />
+        <input class="btn btn-primary" type="button" @onclick=NotAdding value="Cancel" />
     </div>
 }
 

@@ -76,33 +76,36 @@
 
 @if (Returning)
 {
-    <div>
-        <h2>History</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Book</th>
-                    <th>Author</th>
-                    <th>Date Out</th>
-                    <th>Date Returned</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var history in bookHistories)
+<div>
+    <h2>History</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Book</th>
+                <th>Author</th>
+                <th>Date Out</th>
+                <th>Date Returned</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var history in bookHistories)
+            {
+            <tr>
+                <td>@history.Book.Title</td>
+                <td>@history.Book.Author</td>
+                <td>@history.DateOut</td>
+                <td>@history.DateIn</td>
+                <td></td>
+                @if (history.DateIn == null)
                 {
-                    <tr>
-                        <td>@history.Book.Title</td>
-                        <td>@history.Book.Author</td>
-                        <td>@history.DateOut</td>
-                        <td>@history.DateIn</td>
-                        <td></td>
-                        <td><input class="btn btn-primary" type="button" @onclick="() => OpenDialogReturn(history)" value="Return" /></td>
-                        <td><input class="btn btn-primary" type="button" @onclick="NotLending" value="Cancel" /></td>
-                    </tr>
+                    <td><input class="btn btn-primary" type="button" @onclick="() => OpenDialogReturn(history)" value="Return" /></td>
                 }
-            </tbody>
-        </table>
-    </div>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <td><input class="btn btn-primary" type="button" @onclick="NotLending"  value="Cancel" /></td>
+</div>
 }
 
 @if (DialogIsOpenBook)
