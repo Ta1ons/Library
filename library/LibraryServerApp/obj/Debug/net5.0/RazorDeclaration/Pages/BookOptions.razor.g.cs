@@ -171,7 +171,7 @@ using LibraryService.Data.Models;
     {
         DialogIsOpen = true;
         bookNo = book.BookId;
-        message = "Do you want to delete \"" + book.Title + book.Author + "\"?";
+        message = "Do you want to delete \"" + book.Title + " by " + book.Author + "\"?";
     }
 
     private async Task OnDialogClose(bool isOk)
