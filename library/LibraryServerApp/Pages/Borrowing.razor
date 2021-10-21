@@ -41,37 +41,37 @@
 
 @if (Lending)
 {
-    <div>
-        <h2></h2>
-        <h2>Find the book</h2>
-        <input class="form-control mb-2 mr-sm-2" type="text" @bind="searchCriteria" placeholder="Enter Keyword." />
-        <input class="btn btn-primary" type="button" @onclick="SearchBook" value="Search" />
-        <input class="btn btn-primary" type="button" @onclick="ClearBook" value="Clear" />
-        <table class="table">
-            <thead>
+<div>
+    <h2></h2>
+    <h2>Find the book</h2>
+    <input class="form-control mb-2 mr-sm-2" type="text" @bind="searchCriteria" placeholder="Enter Keyword." />
+    <input class="btn btn-primary" type="button" @onclick="SearchBook" value="Search" />
+    <input class="btn btn-primary" type="button" @onclick="ClearBook" value="Clear" />
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Series</th>
+                <th>Series No.</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Books)
+            {
                 <tr>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Series</th>
-                    <th>Series No.</th>
+                    <td>@book.Title</td>
+                    <td>@book.Author</td>
+                    <td>@book.Series</td>
+                    <td>@book.SeriesNo</td>
+                    <td></td>
+                    <td><input class="btn btn-primary" type="button" @onclick="() => OpenDialogLend(book)" value="Select" /></td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var book in Books)
-                {
-                    <tr>
-                        <td>@book.Title</td>
-                        <td>@book.Author</td>
-                        <td>@book.Series</td>
-                        <td>@book.SeriesNo</td>
-                        <td></td>
-                        <td><input class="btn btn-primary" type="button" @onclick="() => OpenDialogLend(book)" value="Select" /></td>
-                        <td><input class="btn btn-primary" type="button" @onclick="NotLending" value="Cancel" /></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+            }
+        </tbody>
+    </table>
+    <td><input class="btn btn-primary" type="button" @onclick="NotLending" value="Cancel" /></td>
+</div>
 }
 
 @if (Returning)
