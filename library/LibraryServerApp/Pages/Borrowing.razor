@@ -93,8 +93,8 @@
             <tr>
                 <td>@history.Book.Title</td>
                 <td>@history.Book.Author</td>
-                <td>@history.DateOut</td>
-                <td>@history.DateIn</td>
+                <td>@history.DateOut.ToString("d")</td>
+                <td>@history.DateIn?.ToString("d")</td>
                 <td></td>
                 @if (history.DateIn == null)
                 {
