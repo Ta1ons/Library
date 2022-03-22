@@ -227,6 +227,14 @@ using LibraryService.Data.Models;
         DialogIsOpenHist = false;
     }
 
+    protected void OnKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" || e.Key == "NumpadEnter")
+        {
+            SearchBook();
+        }
+    }
+
 #line default
 #line hidden
 #nullable disable

@@ -13,7 +13,7 @@
     }
     else
     {
-        <input class="form-control mb-2 mr-sm-2" type="text" @bind="searchCriteria" placeholder="Search for borrower" />
+        <input class="form-control mb-2 mr-sm-2" type="text" @onkeydown="OnKeyDown" @bind="searchCriteria" placeholder="Search for borrower" />
         <input class="btn btn-primary" type="button" @onclick="SearchBorrowers" value="Search" />
         <input class="btn btn-primary" type="button" @onclick="ClearBorrowers" value="Clear" />
         <table class="table">
@@ -239,5 +239,13 @@
             Returning = false;
         }
         DialogIsOpenHist = false;
+    }
+
+    protected void OnKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" || e.Key == "NumpadEnter")
+        {
+            SearchBook();
+        }
     }
 }

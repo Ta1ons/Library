@@ -208,51 +208,43 @@ using LibraryService.Data.Models;
 #nullable disable
             __builder.OpenElement(29, "tr");
             __builder.OpenElement(30, "td");
-            __builder.AddContent(31, 
 #nullable restore
 #line 36 "C:\Gitprojects\Library\library\LibraryServerApp\Pages\BookOptions.razor"
-                             book.Title
+__builder.AddContent(31, book.Title);
 
 #line default
 #line hidden
 #nullable disable
-            );
             __builder.CloseElement();
             __builder.AddMarkupContent(32, "\r\n                        ");
             __builder.OpenElement(33, "td");
-            __builder.AddContent(34, 
 #nullable restore
 #line 37 "C:\Gitprojects\Library\library\LibraryServerApp\Pages\BookOptions.razor"
-                             book.Author
+__builder.AddContent(34, book.Author);
 
 #line default
 #line hidden
 #nullable disable
-            );
             __builder.CloseElement();
             __builder.AddMarkupContent(35, "\r\n                        ");
             __builder.OpenElement(36, "td");
-            __builder.AddContent(37, 
 #nullable restore
 #line 38 "C:\Gitprojects\Library\library\LibraryServerApp\Pages\BookOptions.razor"
-                             book.Series
+__builder.AddContent(37, book.Series);
 
 #line default
 #line hidden
 #nullable disable
-            );
             __builder.CloseElement();
             __builder.AddMarkupContent(38, "\r\n                        ");
             __builder.OpenElement(39, "td");
-            __builder.AddContent(40, 
 #nullable restore
 #line 39 "C:\Gitprojects\Library\library\LibraryServerApp\Pages\BookOptions.razor"
-                             book.SeriesNo
+__builder.AddContent(40, book.SeriesNo);
 
 #line default
 #line hidden
 #nullable disable
-            );
             __builder.CloseElement();
             __builder.AddMarkupContent(41, "\r\n                        <td></td>\r\n                        ");
             __builder.OpenElement(42, "td");
@@ -444,7 +436,7 @@ using LibraryService.Data.Models;
 #nullable disable
             __builder.OpenComponent<LibraryServerApp.Components.Dialog>(98);
             __builder.AddAttribute(99, "Caption", "Delete the book");
-            __builder.AddAttribute(100, "Message", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.String>(
+            __builder.AddAttribute(100, "Message", global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.String>(
 #nullable restore
 #line 79 "C:\Gitprojects\Library\library\LibraryServerApp\Pages\BookOptions.razor"
                       message
@@ -453,7 +445,7 @@ using LibraryService.Data.Models;
 #line hidden
 #nullable disable
             ));
-            __builder.AddAttribute(101, "OnClose", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<System.Boolean>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<System.Boolean>(this, 
+            __builder.AddAttribute(101, "OnClose", global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<System.Boolean>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<System.Boolean>(this, 
 #nullable restore
 #line 80 "C:\Gitprojects\Library\library\LibraryServerApp\Pages\BookOptions.razor"
                       OnDialogClose
@@ -462,7 +454,7 @@ using LibraryService.Data.Models;
 #line hidden
 #nullable disable
             )));
-            __builder.AddAttribute(102, "Type", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<LibraryServerApp.Components.Dialog.Category>(
+            __builder.AddAttribute(102, "Type", global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<LibraryServerApp.Components.Dialog.Category>(
 #nullable restore
 #line 81 "C:\Gitprojects\Library\library\LibraryServerApp\Pages\BookOptions.razor"
                   Dialog.Category.DeleteNot

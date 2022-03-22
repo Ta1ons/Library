@@ -108,15 +108,13 @@ using LibraryServerApp.Components;
             __builder.OpenElement(12, "div");
             __builder.AddAttribute(13, "class", "content px-4");
             __builder.AddAttribute(14, "b-xx2xhad7gs");
-            __builder.AddContent(15, 
 #nullable restore
 #line 14 "C:\Gitprojects\Library\library\LibraryServerApp\Shared\MainLayout.razor"
-             Body
+__builder.AddContent(15, Body);
 
 #line default
 #line hidden
 #nullable disable
-            );
             __builder.CloseElement();
             __builder.CloseElement();
             __builder.CloseElement();

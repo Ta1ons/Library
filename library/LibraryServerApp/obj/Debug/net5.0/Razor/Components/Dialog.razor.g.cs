@@ -105,15 +105,13 @@ using LibraryServerApp.Components;
             __builder.AddAttribute(11, "class", "modal-header");
             __builder.OpenElement(12, "h4");
             __builder.AddAttribute(13, "class", "modal-title");
-            __builder.AddContent(14, 
 #nullable restore
 #line 5 "C:\Gitprojects\Library\library\LibraryServerApp\Components\Dialog.razor"
-                                         Caption
+__builder.AddContent(14, Caption);
 
 #line default
 #line hidden
 #nullable disable
-            );
             __builder.CloseElement();
             __builder.AddMarkupContent(15, "\r\n                ");
             __builder.OpenElement(16, "button");
@@ -135,15 +133,13 @@ using LibraryServerApp.Components;
             __builder.OpenElement(22, "div");
             __builder.AddAttribute(23, "class", "modal-body");
             __builder.OpenElement(24, "p");
-            __builder.AddContent(25, 
 #nullable restore
 #line 9 "C:\Gitprojects\Library\library\LibraryServerApp\Components\Dialog.razor"
-                    Message
+__builder.AddContent(25, Message);
 
 #line default
 #line hidden
 #nullable disable
-            );
             __builder.CloseElement();
             __builder.CloseElement();
             __builder.AddMarkupContent(26, "\r\n            ");
