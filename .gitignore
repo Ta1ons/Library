@@ -3,6 +3,7 @@
 ################################################################################
 
 /.vs
-/library/.vs/library/v16
-/library/library/obj
+/library/.vs/library/
+/library/library/obj/
 /library/LibraryServerApp/bin/
+/library/LibraryServerApp/obj/
