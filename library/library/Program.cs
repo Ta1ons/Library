@@ -11,6 +11,7 @@ namespace Library
         public static BookService bookService = new BookService();
         public static LoginService login = new LoginService();
         public static UserService userService = new UserService();
+        public static DvdService dvdService = new DvdService();
 
         static void Main(string[] args)
         {

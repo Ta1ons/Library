@@ -17,10 +17,6 @@ namespace LibraryService.Services
             _context = dbAccessor.DataContext;
         }
 
-        //private List<Book> books = new List<Book>();
-        //private string path = @"C:\Gitprojects\Library\library\library\Data\BookData.txt";
-
-
         public void SaveBook(Book bookToSave)
         {
 

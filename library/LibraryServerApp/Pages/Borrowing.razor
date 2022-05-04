@@ -5,7 +5,7 @@
 
 <h1>Borrowing</h1>
 
-@if (!Lending && !Returning)
+@if (!LendingBook && !Returning)
 {
     @if (Users == null)
     {
@@ -39,7 +39,7 @@
     }
 }
 
-@if (Lending)
+@if (LendingBook)
 {
 <div>
     <h2></h2>
@@ -129,7 +129,7 @@
 
 @code {
 
-    private bool Lending = false;
+    private bool LendingBook = false;
     private bool Returning = false;
     private UserService _userService;
     private BookService _bookService;
@@ -166,7 +166,7 @@
 
     private void NotLending()
     {
-        Lending = false;
+        LendingBook = false;
         Returning = false;
     }
 
@@ -175,7 +175,7 @@
         GetBooks();
         NewBookHistory = new BookHistory();
         Borrower = user;
-        Lending = true;
+        LendingBook = true;
     }
 
     private void ReturnABook(User user)
@@ -219,7 +219,7 @@
         if (isOk)
         {
             _userService.CreateLend(wholebook, Borrower);
-            Lending = false;
+            LendingBook = false;
         }
         DialogIsOpenBook = false;
     }

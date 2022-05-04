@@ -1,0 +1,174 @@
+﻿@using LibraryService.Services;
+@using LibraryService.Data.Models;
+
+@page "/Dvds"
+
+<h1>Dvds</h1>
+
+
+
+@if (!AddingNewDvd)
+{
+    @if (Dvds == null)
+    {
+        <p><em>Loading...</em></p>
+    }
+    else
+    {
+        <input type="button" @onclick=Adding value="Add New Dvd" />
+        <input class="form-control mb-2 mr-sm-2" type="text" @bind="searchCriteria" placeholder="Search" />
+        <input class="btn btn-primary" type="button" @onclick=Search value="Search" />
+        <input class="btn btn-primary" type="button" @onclick=Clear value="Clear" />
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Year</th>
+                    <th>Genre</th>
+                    <th>Series</th>
+                    <th>Series No.</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var dvd in Dvds)
+                {
+                    <tr>
+                        <td>@dvd.Title</td>
+                        <td>@dvd.Year</td>
+                        <td>@dvd.Genre</td>
+                        <td>@dvd.Series</td>
+                        <td>@dvd.SeriesNo</td>
+                        <td></td>
+                        <td><input type="button" @onclick="() => OpenDialog(dvd)" value="Delete" /></td>
+                        <td><input type="button" @onclick="() => EditDvd(dvd)" value="Edit" /></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+
+@if (AddingNewDvd)
+{
+    <div>
+        <h2>Adding New DvD</h2>
+        <div>
+            <label>Title</label>
+            <input class="form-control" type="text" @bind="DvdToAdd.Title" />
+        </div>
+        <div>
+            <label>Year</label>
+            <input class="form-control" type="text" @bind="DvdToAdd.Year" />
+        </div>
+        <div>
+            <label>Genre</label>
+            <input class="form-control" type="text" @bind="DvdToAdd.Genre" />
+        </div>
+        <div>
+            <label>Series</label>
+            <input class="form-control" type="text" @bind="DvdToAdd.Series" />
+        </div>
+        <div>
+            <label>Series No.</label>
+            <input class="form-control" type="text" @bind="DvdToAdd.SeriesNo" />
+        </div>
+        <input class="btn btn-primary" type="button" @onclick=SaveDvd value="Save" />
+        <input class="btn btn-primary" type="button" @onclick=NotAdding value="Cancel" />
+    </div>
+}
+
+@if (DialogIsOpen)
+{
+    <Dialog Caption="Delete the DvD"
+            Message="@message"
+            OnClose="@OnDialogClose"
+            Type="Dialog.Category.DeleteNot">
+    </Dialog>
+}
+
+
+
+@code {
+
+    private bool AddingNewDvd = false;
+    private DvdService _dvdService;
+    private List<Dvd> Dvds = new List<Dvd>();
+    private Dvd DvdToAdd;
+    private int DvdNo;
+    private bool DialogIsOpen = false;
+    private string searchCriteria = string.Empty;
+    private string message;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _dvdService = new DvdService();
+        GetDvds();
+    }
+
+    private void GetDvds()
+    {
+        Dvds = _dvdService.GetAllDvds();
+    }
+
+    private void NotAdding()
+    {
+        AddingNewDvd = false;
+    }
+
+    private void Adding()
+    {
+        DvdToAdd = new Dvd();
+        AddingNewDvd = true;
+    }
+
+    private void EditDvd(Dvd dvd)
+    {
+        if (dvd != null)
+        {
+            DvdToAdd = dvd;
+        }
+        AddingNewDvd = true;
+    }
+
+
+    private void SaveDvd()
+    {
+        if (AddingNewDvd == true)
+        {
+            _dvdService.SaveDvd(DvdToAdd);
+        }
+
+        GetDvds();
+        NotAdding();
+    }
+
+    private void OpenDialog(Dvd dvd)
+    {
+        DialogIsOpen = true;
+        DvdNo = dvd.DvdID;
+        message = "Do you want to delete \"" + dvd.Title + " - " + dvd.Year + "\"?";
+    }
+
+    private async Task OnDialogClose(bool isOk)
+    {
+        if (isOk)
+        {
+            _dvdService.DeleteDvd(DvdNo);
+            GetDvds();
+        }
+        DialogIsOpen = false;
+    }
+
+    private void Search()
+    {
+        Dvds = _dvdService.SearchDvds(searchCriteria);
+    }
+
+    private void Clear()
+    {
+        searchCriteria = string.Empty;
+        GetDvds();
+    }
+}
