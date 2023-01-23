@@ -16,17 +16,20 @@
     else
     {
         <input type="button" @onclick=Adding value="Add New Book" />
-        <input class="form-control mb-2 mr-sm-2" type="text" @bind="searchCriteria" placeholder="Search" />
+        <input class="form-control mb-2 mr-sm-2" style="margin-top: 8px" type="text" @bind="searchCriteria" placeholder="Search" />
         <input class="btn btn-primary" type="button" @onclick=Search value="Search" />
         <input class="btn btn-primary" type="button" @onclick=Clear value="Clear" />
 
-        <table class="table">
+        <table class="table" style="margin-top: 8px">
             <thead>
                 <tr>
                     <th>Title</th>
                     <th>Author</th>
                     <th>Series</th>
                     <th>Series No.</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
