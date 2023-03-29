@@ -6,7 +6,7 @@ namespace LibraryService
     public class DbAccessor
     {
         public LibraryContext DataContext { get; set; }
-        public string DbPath { get; private set; } = "Data Source=sql03\\dev;Integrated Security=SSPI;Initial Catalog=AdamLibrary;";
+        public string DbPath { get; private set; } = "Data Source=DESKTOP-QHQ0GDA\\SQLEXPRESS;Integrated Security=SSPI;Initial Catalog=Library;Trust Server Certificate=true";
 
         public DbAccessor()
         {
