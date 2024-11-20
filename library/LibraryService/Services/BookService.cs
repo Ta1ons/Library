@@ -47,10 +47,10 @@ namespace LibraryService.Services
 
         public List<Book> SearchBooks(string searchCriteria)
         {
-            return _context.Books.Where(b => 
-            b.Title.Contains(searchCriteria) || 
-            b.Author.Contains(searchCriteria) || 
-            b.Series.Contains(searchCriteria) ).ToList();
+            return _context.Books.Where(p => 
+            p.Title.Contains(searchCriteria) || 
+            p.Author.Contains(searchCriteria) || 
+            p.Series.Contains(searchCriteria) ).ToList();
         }
 
         public void DeleteBook(int bookID)
@@ -72,6 +72,13 @@ namespace LibraryService.Services
         public List<Book> GetAllBooks()
         {
             return _context.Books.Take(200).ToList();
+        }
+
+        public List<BookHistory> ReturnBookHistory(int bookId)
+        {
+            var bookHistory = _context.BookHistory.Where(x => x.BookId == bookId).ToList();            
+
+            return bookHistory;
         }
     }
 }

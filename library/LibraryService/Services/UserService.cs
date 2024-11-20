@@ -73,5 +73,17 @@ namespace LibraryService.Services
         {
             return _context.Users.Take(10).ToList();
         }
+
+        public List<User> GetBorrowersFromHistory(List<BookHistory> bookHistories) 
+        {
+            var users = new List<User>();
+
+            foreach (var history in bookHistories)
+            {
+                var user = _context.Users.FirstOrDefault(x => x.UserId == history.UserId);
+                users.Add(user);
+            }
+            return users;
+        }
     }
 }

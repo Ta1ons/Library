@@ -43,7 +43,8 @@
                         <td></td>
                         <td><input type="button" @onclick="() => OpenDialog(book)" value="Delete" /></td>
                         <td><input type="button" @onclick="() => EditBook(book)" value="Edit" /></td>
-                    </tr>
+                        <td><input type="button" @onclick="() => GetHistory(book)" value="History" /></td>
+                    </tr>                  
                 }
             </tbody>
         </table>
@@ -57,31 +58,53 @@
         <h2>Adding New Book</h2>
         <div>
             <label>Title</label>
-            <input class="form-control" type="text" @bind="BookToAdd.Title" />
+            <input class="form-control" type="text" @bind="CurrentBook.Title" />
         </div>
         <div>
             <label>Author</label>
-            <input class="form-control" type="text" @bind="BookToAdd.Author" />
+            <input class="form-control" type="text" @bind="CurrentBook.Author" />
         </div>
         <div>
             <label>Series</label>
-            <input class="form-control" type="text" @bind="BookToAdd.Series" />
+            <input class="form-control" type="text" @bind="CurrentBook.Series" />
         </div>
         <div>
             <label>Series No.</label>
-            <input class="form-control" type="text" @bind="BookToAdd.SeriesNo" />
+            <input class="form-control" type="text" @bind="CurrentBook.SeriesNo" />
         </div>
         <input class="btn btn-primary" type="button" @onclick=SaveBook value="Save" />
         <input class="btn btn-primary" type="button" @onclick=NotAdding value="Cancel" />
     </div>
 }
 
+@if (CheckBookHistory)
+{
+    <table class="table" style="margin-top: 8px">
+
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in users)
+            {
+                <tr>
+                    <td>@user.Name</td>
+                    <td>@user.Email</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
 @if (DialogIsOpen)
 {
     <Dialog Caption="Delete the book"
-            Message="@message"
-            OnClose="@OnDialogClose"
-            Type="Dialog.Category.DeleteNot">
+        Message="@message"
+        OnClose="@OnDialogClose"
+        Type="Dialog.Category.DeleteNot">
     </Dialog>
 }
 
@@ -90,9 +113,13 @@
 @code {
 
     private bool AddingNewBook = false;
+    private bool CheckBookHistory = false;
     private BookService _bookService;
+    private UserService _userService;
     private List<Book> Books = new List<Book>();
-    private Book BookToAdd;
+    private List<User> users = new List<User>();
+    private List<BookHistory> histories = new List<BookHistory>();
+    private Book CurrentBook;
     private int bookNo;
     private bool DialogIsOpen = false;
     private string searchCriteria = string.Empty;
@@ -101,6 +128,7 @@
     protected override async Task OnInitializedAsync()
     {
         _bookService = new BookService();
+        _userService = new UserService();
         GetBooks();
     }
 
@@ -112,11 +140,12 @@
     private void NotAdding()
     {
         AddingNewBook = false;
+        CheckBookHistory = false;
     }
 
     private void Adding()
     {
-        BookToAdd = new Book();
+        CurrentBook = new Book();
         AddingNewBook = true;
     }
 
@@ -124,7 +153,7 @@
     {
         if (book != null)
         {
-            BookToAdd = book;
+            CurrentBook = book;
         }
         AddingNewBook = true;
     }
@@ -134,7 +163,7 @@
     {
         if (AddingNewBook == true)
         {
-            _bookService.SaveBook(BookToAdd);
+            _bookService.SaveBook(CurrentBook);
         }
 
         GetBooks();
@@ -158,11 +187,20 @@
         DialogIsOpen = false;
     }
 
-    //private void DeleteBook(Book book)
-    //{
-    //    _bookService.DeleteBook(book.BookId);
-    //    GetBooks();
-    //}
+    private void GetHistory(Book book)
+    {
+        histories = _bookService.ReturnBookHistory(book.BookId);
+        users = _userService.GetBorrowersFromHistory(histories);
+        CurrentBook = book;
+        if (CheckBookHistory == true)
+        {
+            CheckBookHistory = false;
+        }
+        else
+        {
+            CheckBookHistory = true;
+        }
+    }
 
     private void Search()
     {
