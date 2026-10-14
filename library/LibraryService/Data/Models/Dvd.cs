@@ -8,7 +8,7 @@ namespace LibraryService.Data.Models
     {
         public int DvdID { get; set; }
         public string Title { get; set; }
-        public string? Series { get; set; }
+        public string Series { get; set; }
         public int? Year { get; set; }
         public string Genre { get; set; }
         public int? SeriesNo { get; set; }
